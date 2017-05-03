@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h1>Bienvenue</h1>
+        <h2><a href="./accueil.html">Accueil Collect'IF</a></h2>
+        <h3><a href="./listeActivites.html"> Voir la liste des restaurants avec AJAX/Jquery (2)</a></h3>
+        <h3><a href="./ActionServlet?action=listeActivites"> ActionServlet: Lister les Activites (nous donne le JSON)</a></h3>
+        <p>Le servlet nous renvoie le JSON, le navigateur doit l'interpreter</p>
+
+        
+        <div id="listeActivites">
+            <span>loading...</span>
+        </div>
+
+        <script>
+            var xmlhttp = new XMLHttpRequest();
+            var url = 'ActionServlet?action=listeActivites';
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                    var data = JSON.parse(xmlhttp.responseText);
+                    onRequestResult(data);
+                } else if (xmlhttp.readyState === 4) {
+                    onRequestError(xmlhttp.status, xmlhttp.responseText);
+                }
+            };
+            xmlhttp.open("POST", url, true);
+            xmlhttp.send();
+
+            function onRequestResult(data) {
+                var activite = data.activites;
+                var html = '<ul>';
+                var i;
+                for (i = 0; i < activite.length; i++) {
+                    html += '<li>[' + activite[i].id + '] ' + activite[i].denomination + '</li>';
+                }
+                html += '</ul>';
+                document.getElementById('listeActivites').innerHTML = html;
+            }
+
+            function onRequestError(status, text) {
+                console.log('HTTP Error' + status + '--' + text);
+                document.getElementById('listeActivites').innerHTML = "Error loading data (" + status + ")";
+            }
+        </script>
+    </body>
+</html>

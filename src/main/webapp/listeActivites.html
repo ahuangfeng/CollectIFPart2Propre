@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Collect'IF - Liste des Activités</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
+    </head>
+    <body>
+        <h1>Collect'IF &ndash; Liste des Activités</h1>
+        <div id='inscrit'>
+            <span>Loading Adherent ...</span>
+        </div>
+        <div id='listeActivites'>
+            <span>chargement en cours...</span>
+        </div>
+
+        <script>
+
+//            $(function () {
+//                $.ajax({
+//                    url: './ActionServlet',
+//                    type: 'POST',
+//                    data: {
+//                        action: 'logged'
+//                    },
+//                    dataType: 'json'
+//                })
+//                        .done(function (data) {
+//                            var adh = data;
+//                            var contenuHtml = '<h4>';
+//                            contenuHtml+=data.id + ' , email : '+data.email;
+//                            contenuHtml += '</h4>';
+//                            $('#inscrit').html(contenuHtml);
+//                        })
+//                        .fail(function () {
+//                            $('#inscrit').html('No logged!');
+//                        })
+//                        ;
+//            });
+
+//            Script pour afficher toutes les activités disponibles
+            $(function () {
+
+                $.ajax({
+                    url: './ActionServlet',
+                    type: 'POST',
+                    data: {
+                        action: 'listeActivites'
+                    },
+                    dataType: 'json'
+                })
+                .done(function(data) {
+                    var act = data.activites;
+                    var contenuHtml = '<ul>';
+                    var i;
+                    for (i = 0; i < act.length; i++) {
+                        contenuHtml += '<li>' +'['+ act[i].id +'] '+act[i].denomination+ '<a href= "./detailActivite.html?'+act[i].id+ '">'+' Voir'+ '</a>' + '</li>';
+                    }
+                    contenuHtml += '</ul>';
+                    $('#listeActivites').html(contenuHtml);
+
+
+                        })
+                        .fail(function () {
+                            $('#listeActivites').html('ERREUR de chargement');
+                        })
+                        .always(function () {
+                            //
+                        });
+
+            });
+
+        </script>
+    </body>
+</html>

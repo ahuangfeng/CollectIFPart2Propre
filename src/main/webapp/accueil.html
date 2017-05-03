@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Collect'IF - Accueil</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
+        <style>
+            header{
+                margin: auto;
+                width: 60%;
+                padding: 10px;
+                text-align: center;
+            }
+            
+            .nameCompany {
+                margin: auto;
+                width: 60%;
+                padding: 10px;
+            }
+            h1{
+                font-family: sans-serif;
+                font-size: 80px;
+                text-align: center;
+            }
+            .intro{
+                margin: auto;
+                width: 60%;
+                border: 3px solid #73AD21;
+                padding: 10px;
+                font-size: 23px;
+            }
+            .button {
+                background-color: #4CAF50; /* Green */
+                border: none;
+                color: white;
+                width: 175px;
+                height: 30px;
+                padding: 3px 25px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-family: serif;
+                font-size: 16px;
+                border-radius: 4px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+            }
+            .button:hover{
+                background-color: #f44336;
+                color: white;
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+            }
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+            .button span:after {
+                content: '\00bb';
+                position: absolute;
+                opacity: 0;
+                top: 0;
+                right: -20px;
+                transition: 0.5s;
+            }
+
+            .button:hover span {
+                padding-right: 25px;
+            }
+
+            .button:hover span:after {
+                opacity: 1;
+                right: 0;
+            }
+            table,th,td{
+                text-align: left;
+            }
+            input[type=email], select {
+                width: 100%;
+                height: 30px;
+                padding: 4px 10px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 3px solid #ccc;
+                border-radius: 4px;
+                transition: 0.5s;
+                box-sizing: border-box;
+            }
+            input[type=email]:focus {
+                border: 3px solid  #555;
+            }
+        </style>
+
+        <script>
+            "use strict";
+            function connection() {
+                //TODO : code connexion
+//                var x;
+//                x = document.getElementById("email").value;
+////                document.getElementById("connected").innerHTML = x;
+//
+//                //Partie Servlet
+//                $.ajax({
+//                    url: './ActionServlet',
+//                    type: 'POST',
+//                    data: {
+//                        action: 'login',
+//                        email: x
+//                    },
+//                    dataType: 'html'
+//                })
+//                        .done(function (data) {
+//                            var contenuHtml = data;
+//                            $('*').html(contenuHtml);
+//                        });
+//                var xmlhttp = new XMLHttpRequest();
+//                var url = './ActionServlet?action=login&email='+document.getElementById("email").value;
+//                xmlhttp.open("GET", url, true);
+//                xmlhttp.send();
+            }
+        </script>
+    </head>
+
+    <header style="margin-top: 25px;">
+        <form action="./ActionServlet">
+            <table align="center">
+                <tr>
+                    <td style="font-family: sans-serif;">
+                        Adresse Email
+                    </td>
+                    <td></td>
+                    <td style="font-family: sans-serif;">
+                        Pas encore membre ?
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input name="email" id="email" type="email" size="25" placeholder="Ton e-mail">
+                    </td>
+                    <td>
+                        <button name="action" value="login" class="button" type="submit"><span>Se connecter</span></button>
+                        <!--<input class="button" type="submit" value="TESTS">-->
+                    </td>
+                    <td>
+                        <button class="button" type="button" onclick="location.href = 'inscription.html'"><span>S'inscrire</span></button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+    </header>
+    <p id="connected"></p>
+    <section>
+        <div class="nameCompany">
+            <h1>Collect'IF</h1>
+        </div>
+        <div class="intro">
+            <p>Bienvenue sur Collect'IF ! Dans ce monde toujours plus virtualisé, il est grand temps d'enfin se retrouver</p>
+        </div>
+    </section>
+</html>

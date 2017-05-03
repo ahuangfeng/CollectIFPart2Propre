@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Collect'IF - Détail d'une activité</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
+    </head>
+    <body>
+        <h1>Collect'IF &ndash; Détail de l'activité : </h1>
+        <div id='detailActivite'>
+            <span>chargement en cours...</span>
+        </div>
+
+        
+        <script>
+
+            $(function () {
+                var idAct = window.location.search.substring(1);
+                $.ajax({
+                    url: './ActionServlet',
+                    type: 'POST',
+                    data: {
+                        action: 'detailActivite',
+                        id: idAct
+                    },
+                    dataType: 'json'
+                })
+                        .done(function (data) {
+                            var act = data;
+                            var contenuHtml = '<ul>';
+                            contenuHtml += '<h2><u>' + act.denomination + '</u></h2>' + '<li><p> Payant : ' + act.payant + '</p></li>'
+                                    + '<li><p> Nombre de participants : ' + act.nbparticipant + '</p></li>' + '</ul>';
+                            $('#detailActivite').html(contenuHtml);
+                        })
+                        .fail(function () {
+                            $('#detailActivite').html('ERREUR de chargement');
+                        })
+                        .always(function () {
+                            //
+                        });
+            });
+
+        </script>
+    </body>
+</html>
+
