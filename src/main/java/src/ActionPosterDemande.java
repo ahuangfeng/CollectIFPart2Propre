@@ -63,7 +63,7 @@ class ActionPosterDemande {
                 Demande demande = new Demande(date, moment);
                 boolean confirme = ServiceMetier.saveDemande(adherent, demande, idActivite);
                 if (confirme) {
-                    out.print("Demande cree : " + demande.toString());
+                    out.println("Demande cree : " + demande.toString());
                     out.println("Adherent : " + adherent.toString());
                     out.println("Id Activite : " + idActivite);
                 } else {

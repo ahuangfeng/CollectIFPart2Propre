@@ -110,18 +110,39 @@
 
             function onRequestResult(data) {
                 var activite = data.activites;
-                var html = "<select name='activite'>";
+                var html = "";
                 var i;
                 for (i = 0; i < activite.length; i++) {
                     html += "<option value=" + activite[i].id + ">" + activite[i].denomination + '</option>';
                 }
-                html += '</select>';
+                html += '';
                 document.getElementById('activite').innerHTML = html;
             }
 
             function onRequestError(status, text) {
                 console.log('HTTP Error' + status + '--' + text);
                 document.getElementById('listeActivites').innerHTML = "Error loading data (" + status + ")";
+            }
+        </script>
+        <script type="text/javascript">
+            function posterDemande() {
+                var xmlhttp = new XMLHttpRequest();
+                var moment = document.getElementById("moment").value;
+                var act = document.getElementById("activite").value;
+                var jour = document.getElementById("jour").value;
+                var mois = document.getElementById("mois").value;
+                var annee = document.getElementById("annee").value;
+                var url = 'ActionServlet?action=posterDemande&moment=' + moment;
+                url += '&activite=' + act + "&jour=" + jour + "&mois=" + mois + "&annee=" + annee;
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+                xmlhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // Typical action to be performed when the document is ready:
+                        var reponse = xmlhttp.responseText;
+                        alert(reponse);
+                    }
+                };
             }
         </script>
     </head>
@@ -152,7 +173,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <select name="moment">
+                        <select id="moment" name="moment">
                             <option>Matin</option> 
                             <option>Après-midi</option> 
                             <option>Soir</option> 
@@ -166,7 +187,9 @@
                 </tr>
                 <tr>
                     <td>
-                        <div id="activite"/>
+                        <select id="activite" name='activite'>
+                            <div id="activite"/>
+                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -179,7 +202,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <select id='jour' name="jour">
+                                    <select id="jour" name="jour">
                                         <option selected>1</option>
                                         <option>2</option>
                                         <option>3</option>
@@ -230,7 +253,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <select name='annee'>
+                                    <select id="annee" name='annee'>
                                         <option selected>2017</option>
                                         <option>2018</option>
                                         <option>2019</option>
@@ -244,7 +267,7 @@
                 </tr>
                 <tr class="validation">
                     <td style="text-align: center;">
-                        <button class="button" type="submit">Valider</button>
+                        <button class="button" type="button" onclick="posterDemande()">Valider</button>
                     </td>
                 </tr>
             </table>
