@@ -20,21 +20,23 @@ import metier.service.ServiceMetier;
  */
 class ActionLogin {
 
-    static void run(HttpServletRequest request, HttpServletResponse response, String user, HttpSession session) throws IOException {
+    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String user = request.getParameter("email");
+        HttpSession session = request.getSession();
         Adherent adherent = null;
-            try {
-                adherent = ServiceMetier.Connexion(user);
-            } catch (Exception ex) {
-                Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if (adherent != null) {
-                System.out.println(adherent.getId());
-                session.setAttribute("user", adherent.getId());
-                response.sendRedirect("./posterDemande.html");
-            } else {
-                response.sendRedirect("./inscription.html");
-            }
-            
+        try {
+            adherent = ServiceMetier.Connexion(user);
+        } catch (Exception ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (adherent != null) {
+            System.out.println(adherent.getId());
+            session.setAttribute("user", adherent.getId());
+            response.sendRedirect("./posterDemande.html");
+        } else {
+            response.sendRedirect("./inscription.html");
+        }
+
     }
-    
+
 }

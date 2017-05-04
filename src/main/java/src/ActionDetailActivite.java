@@ -20,12 +20,15 @@ import metier.service.ServiceMetier;
 
 /**
  * Nous renvoie un JSON avec les detail d'une activité saisie par le ID
+ *
  * @author alexh
  */
 public class ActionDetailActivite {
 
-    static void run(HttpServletRequest request, HttpServletResponse response, Long id) throws IOException {
+    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
+        String actID = request.getParameter("id");
+        Long id = Long.parseLong(actID);
         List<Activite> Activite = null;
         try {
             Activite = ServiceMetier.consulterListeActivite();

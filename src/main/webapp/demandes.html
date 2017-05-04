@@ -2,6 +2,7 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
+        <script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
         <title>Collect'IF - S'inscrire</title>
         <style type="text/css">
             header{
@@ -16,7 +17,7 @@
                 font-size: 65px;
                 text-align: left;
             }
-            .nameCompany {
+            .title {
                 position: absolute;
                 top: 200px;
                 left: 400px;
@@ -24,12 +25,10 @@
                 width: 60%;
                 padding: 10px;
             }
-            
-            
             .button {
                 position: absolute;
                 top: 58px;
-                left : 1000px;
+                left : 1200px;
                 background-color: #4CAF50; /* Green */
                 border: none;
                 margin-top: 0px;
@@ -72,39 +71,86 @@
                 opacity: 1;
                 right: 0;
             }
-            table,th,td{
-                text-align: left;
+            .contenuDemandes{
+                border-collapse: collapse;
+                width: 100%;
+                text-align: center;
+                width:100%;
             }
-            
-                    </style>
-                    
+            th, td {
+                text-align: left;
+                padding: 8px;
+            }
+            tr:nth-child(even){background-color: #f2f2f2}
+            th {
+                background-color: #4CAF50;
+                color: white;
+            }
+            .contenuDm{
+                width: 70%;
+                margin: 0 auto;
+            }
+        </style>
+
+        <script>
+            $(function () {
+                $.ajax({
+                    url: './ActionServlet',
+                    type: 'GET',
+                    data: {
+                        action: 'myDemands'
+                    },
+                    dataType: 'json'
+                })
+                        .done(function (data) {
+                            var demandes = data.demandes;
+                            var contenuHtml = '<table class="contenuDemandes"><tr><th>Evenements à  définir</th><th>Date</th><th>Moment</th><th>Payant</th><th>Statut</th></tr>';
+                            var i;
+                            for (i = 0; i < demandes.length; i++) {
+                                contenuHtml += '<tr><td>' + demandes[i].name + '</td><td>' + demandes[i].date + '</td>';
+                                contenuHtml += '<td>' + demandes[i].moment + '</td><td>';
+                                if (demandes[i].payant == true) {
+                                    contenuHtml += 'oui' + '</td>';
+                                } else {
+                                    contenuHtml += 'non' + '</td>';
+                                }
+                                contenuHtml += '<td>' + demandes[i].statut + '</td></tr>';
+                            }
+                            contenuHtml += '</table>';
+                            $('#myDemands').html(contenuHtml);
+                        })
+                        .fail(function () {
+                            $('#myDemands').html('ERREUR de chargement');
+                        })
+                        .always(function () {
+                            //
+                        });
+            });
+        </script>
     </head>
+
+
     <div id="tete">
         <table style="width: 100%; padding-left: 50px;padding-right: 50px;">
             <tr>
                 <td>
                     <h1><span style="border: 1px solid black; padding-left: 15px; padding-right: 15px;">Collect'IF</span></h1>
                 </td>
+                <td class="head">
+                    <button class="button" type="button" onclick="location.href = './posterDemande.html'"><span>Poster une nouvelle demande</span></button>
+                </td>
             </tr>
         </table>
-        
-            <form >
-            <table style=" padding-left: 1000px; padding-right: 20px; padding-bottom: 70px; padding-top: 50px">
-                <tr>
-                    <td>
-                        <button class="button" type="button" onclick="location.href = './posterDemande.html'"><span>Poster une nouvelle demande</span></button>
-                    </td>
-                </tr>
-            </table>
-            </form>
-        <p id="connected"></p>
-    <section>
-        <div class="nameCompany">
-            <h2>Mes demandes :</h2>
-        </div>
-    </section>
-        
     </div>
-    
 
-    
+    <div class="contenuDm">
+        <p id="connected"></p>
+        <section>
+            <h2>Mes demandes :</h2>
+            <div id="myDemands"></div>
+        </section>
+
+    </div>
+
+
+

@@ -18,10 +18,13 @@ import metier.service.ServiceMetier;
  *
  */
 public class ActionInscription {
-    
-    static void run(HttpServletRequest request, HttpServletResponse response, String nom, String prenom, String adresse, String mail) throws IOException {
+
+    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
-        System.out.println("mail");
+        String nom = request.getParameter("nom");
+        String prenom = request.getParameter("prenom");
+        String adresse = request.getParameter("adresse");
+        String mail = request.getParameter("email");
         Adherent adherent = new Adherent(nom, prenom, mail, adresse);
         boolean confirmation = false;
         try {
@@ -29,11 +32,11 @@ public class ActionInscription {
         } catch (Exception ex) {
             Logger.getLogger(ActionInscription.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         response.setCharacterEncoding("UTF-8");
-        if(confirmation){
+        if (confirmation) {
             response.sendRedirect("./confirmation.html");
-        }else{
+        } else {
             response.sendRedirect("./error.html");
         }
     }

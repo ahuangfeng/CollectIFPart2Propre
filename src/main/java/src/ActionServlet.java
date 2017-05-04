@@ -35,8 +35,7 @@ public class ActionServlet extends HttpServlet {
         System.out.println(todo);
         System.out.println("inscription".equals(todo));
         if ("login".equals(todo)) {
-            String user = request.getParameter("email");
-            ActionLogin.run(request,response,user,session);
+            ActionLogin.run(request,response);
         } else if ("logged".equals(todo)) {
             String sessionUser = (String) session.getAttribute("user");
             response.setContentType("application/json");
@@ -44,20 +43,19 @@ public class ActionServlet extends HttpServlet {
             //TODO :si no logged il doit envoyer vers accueil.html
 //                response.sendRedirect("./accueil.html");
         } else if ("inscription".equals(todo)) {
-            String nom = request.getParameter("nom");
-            String prenom = request.getParameter("prenom");
-            String adresse = request.getParameter("adresse");
-            String mail = request.getParameter("email");
-            System.out.println(mail);
-            ActionInscription.run(request, response, nom, prenom, adresse, mail);
+            ActionInscription.run(request, response);
         } else if ("listeActivites".equals(todo)) {
             ActionListeActivites.run(request, response);
         } else if ("detailActivite".equals(todo)) {
-            String actID = request.getParameter("id");
-            Long id = Long.parseLong(actID);
-            ActionDetailActivite.run(request, response, id);
+            ActionDetailActivite.run(request, response);
         } else if("posterDemande".equals(todo)){
-            //TODO
+            try {
+                ActionPosterDemande.run(request,response);
+            } catch (Exception ex) {
+                Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if("myDemands".equals(todo)){
+            ActionMyDemands.run(request,response);
         }
         out.close();
         JpaUtil.destroy();
