@@ -11,7 +11,7 @@
                 margin-left: 20px;
                 text-align: left;
             }
-            
+
             h1{
                 font-family: sans-serif;
                 font-size: 65px;
@@ -62,9 +62,9 @@
                 opacity: 1;
                 right: 0;
             }
-           /* table,tr,td{
-             //   border: 1px solid black;
-            }*/
+            /* table,tr,td{
+              //   border: 1px solid black;
+             }*/
             input {
                 padding: 2px;
                 border: 1px solid #CCC;
@@ -92,39 +92,61 @@
             input[type=text]:focus,input[type=email]:focus {
                 border: 3px solid  #555;
             }
+            a{
+                color: black;
+                background-color: transparent;
+                text-decoration: none;
+            }
         </style>
 
         <script type="text/javascript">
             function submitInscription() {
-                //TODO : code connexion
-//                var nomI,prenomI,emailI,adresseI;
-//                nomI = document.getElementById("nom").value;
-//                prenomI = document.getElementById("prenom").value;
-//                emailI = document.getElementById("email").value;
-//                adresseI = document.getElementById("adresse").value;
-//
-//                //Partie Servlet
-//                $.ajax({
-//                    url: './ActionServlet',
-//                    type: 'POST',
-//                    data: {
-//                        action: 'inscription',
-//                        nom: nomI,
-//                        prenom: prenomI,
-//                        adresse: adresseI,
-//                        email: emailI,
-//                    },
-//                    dataType: 'html'
-//                })
-//                        .done(function (data) {
-//                            var contenuHtml = data;
-//                            $('marche').html(contenuHtml);
-//                        });
-//                var xmlhttp = new XMLHttpRequest();
-//                var url = './ActionServlet?action=login&email='+document.getElementById("email").value;
-//                xmlhttp.open("POST", url, true);
-//                xmlhttp.send();
+                var xmlhttp = new XMLHttpRequest();
+                var url = 'ActionServlet?action=listeAdherents';
+                var mailChoisi = document.getElementById("email").value;
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                        var data = JSON.parse(xmlhttp.responseText);
+                        onRequestResult(data);
+                    } else if (xmlhttp.readyState === 4) {
+                        onRequestError(xmlhttp.status, xmlhttp.responseText);
+                    }
+                };
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+
+                function onRequestResult(data) {
+                    var adherents = data.adherent;
+                    var i;
+                    var existant = false;
+                    for (i = 0; i < adherents.length; i++) {
+                        if (mailChoisi == adherents[i].email) {
+                            existant = true;
+                            alert("Le mail saisi existe déjà dans la base de données");
+                            break;
+                        }
+                    }
+                    if (!existant) {
+                        var xmlhttp = new XMLHttpRequest();
+                        var nom = document.getElementById("nom").value;
+                        var prenom = document.getElementById("prenom").value;
+                        var adresse = document.getElementById("adresse").value;
+                        var mail = document.getElementById("email").value;
+                        
+                        var url = 'ActionServlet?action=inscription&nom='+nom;
+                        url += '&prenom='+prenom+'&adresse='+adresse+'&email='+mail;
+                        xmlhttp.open("GET", url, true);
+                        xmlhttp.send();
+                        window.location.replace('accueil.html');
+                    }
+                }
+
+                function onRequestError(status, text) {
+                    console.log('HTTP Error' + status + '--' + text);
+                    document.getElementById('marche').innerHTML = "Error loading data (" + status + ")";
+                }
             }
+            ;
         </script>
 
     </head>
@@ -132,7 +154,7 @@
         <table class="logo" style="width: 100%; padding-left: 50px;padding-right: 50px;">
             <tr>
                 <td>
-                    <h1><span style="border: 1px solid black; padding-left: 15px; padding-right: 15px;">Collect'IF</span></h1>
+                    <h1><a href="./accueil.html"><span style="border: 1px solid black; padding-left: 15px; padding-right: 15px;">Collect'IF</span></a></h1>
                 </td>
             </tr>
         </table>
@@ -186,7 +208,7 @@
                 </tr>
                 <tr class="validation">
                     <td>
-                        <button class="button" type="submit"><span>M'inscrire</span></button>
+                        <button class="button" type="button" onclick="submitInscription()"><span>M'inscrire</span></button>
                     </td>
                 </tr>
             </table>

@@ -56,6 +56,8 @@ public class ActionServlet extends HttpServlet {
             }
         } else if("myDemands".equals(todo)){
             ActionMyDemands.run(request,response);
+        } else if("listeAdherents".equals(todo)){
+            ActionGetAdherents.run(request,response);
         }
         out.close();
         JpaUtil.destroy();

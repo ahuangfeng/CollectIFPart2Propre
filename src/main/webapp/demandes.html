@@ -114,7 +114,11 @@
                                 } else {
                                     contenuHtml += 'non' + '</td>';
                                 }
-                                contenuHtml += '<td>' + demandes[i].statut + '</td></tr>';
+                                if(demandes[i].statur==true){
+                                    contenuHtml += '<td>Defini</td></tr>';
+                                } else{
+                                    contenuHtml += '<td>A definir</td></tr>';
+                                }
                             }
                             contenuHtml += '</table>';
                             $('#myDemands').html(contenuHtml);
