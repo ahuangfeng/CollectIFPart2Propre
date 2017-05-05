@@ -111,13 +111,13 @@
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
             }
-            
+
             function onRequestResult(data) {
-                if(data==="null"){
+                if (data === "null") {
                     window.location.replace('./inscription.html');
-                }else if(data==="admin"){
+                } else if (data === "admin") {
                     window.location.replace('./admin.html');
-                }else {
+                } else {
                     window.location.replace('./posterDemande.html');
                 }
             }
@@ -129,42 +129,44 @@
         </script>
     </head>
 
-    <header style="margin-top: 25px;">
-        <form action="./ActionServlet">
-            <table align="center">
-                <tr>
-                    <td style="font-family: sans-serif;">
-                        Adresse Email
-                    </td>
-                    <td></td>
-                    <td style="font-family: sans-serif;">
-                        Pas encore membre ?
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input name="email" id="email" type="email" size="25" placeholder="Ton e-mail">
-                    </td>
-                    <td>
-                        <button name="action" value="login" class="button" type="button" onclick="connection()"><span>Se connecter</span></button>
-                    </td>
-                    <td>
-                        <button class="button" type="button" onclick="location.href = 'inscription.html'"><span>S'inscrire</span></button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+    <body>
+        <header style="margin-top: 25px;">
+            <form action="./ActionServlet">
+                <table align="center">
+                    <tr>
+                        <td style="font-family: sans-serif;">
+                            Adresse Email
+                        </td>
+                        <td></td>
+                        <td style="font-family: sans-serif;">
+                            Pas encore membre ?
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input name="email" id="email" type="email" size="25" placeholder="Ton e-mail">
+                        </td>
+                        <td>
+                            <button name="action" value="login" class="button" type="button" onclick="connection()"><span>Se connecter</span></button>
+                        </td>
+                        <td>
+                            <button class="button" type="button" onclick="location.href = 'inscription.html'"><span>S'inscrire</span></button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
 
-    </header>
-    <p id="connected"></p>
-    <section>
-        <div class="nameCompany">
-            <h1>Collect'IF</h1>
-        </div>
-        <div class="intro">
-            <p>Bienvenue sur Collect'IF ! Dans ce monde toujours plus virtualisé, il est grand temps d'enfin se retrouver</p>
-        </div>
-    </section>
-    <div id="marche"></div>
-    <p>Statut de "Mes Demandes" c'est quoi ? validation=evenement cree ou methode getTraite()?</p>
+        </header>
+        <p id="connected"></p>
+        <section>
+            <div class="nameCompany">
+                <h1>Collect'IF</h1>
+            </div>
+            <div class="intro">
+                <p>Bienvenue sur Collect'IF ! Dans ce monde toujours plus virtualisé, il est grand temps d'enfin se retrouver</p>
+            </div>
+        </section>
+        <div id="marche"></div>
+        <p>Statut de "Mes Demandes" c'est quoi ? validation=evenement cree ou methode getTraite()?</p>
+    </body>
 </html>

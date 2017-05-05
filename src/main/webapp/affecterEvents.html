@@ -1,16 +1,164 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
+<html lang="fr">
     <head>
-        <title>affecterEvents</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
+        <title>Collect'IF - Administrateur</title>
+        <style type="text/css">
+            header{
+                width: 60%;
+                padding: 5px;
+                margin-top: 0px;
+                margin-left: 20px;
+                text-align: left;
+            }
+            h1{
+                font-family: sans-serif;
+                font-size: 65px;
+                text-align: left;
+            }
+            .title {
+                position: absolute;
+                top: 200px;
+                left: 400px;
+                margin: auto;
+                width: 60%;
+                padding: 10px;
+            }
+            .button {
+                position: absolute;
+                top: 13%;
+                left : 75%;
+                background-color: #4CAF50; /* Green */
+                border: none;
+                margin-top: 0px;
+                color: white;
+                height: 70px;
+                padding: 10px 10px;
+                text-align: right;
+                text-decoration: none;
+                display: inline-block;
+                font-family: serif;
+                font-size: 16px;
+                border-radius: 4px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+            }
+            .button:hover{
+                background-color: #f44336; /* Red */
+                color: white;
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+            }
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+            .button span:after {
+                content: '\00bb';
+                position: absolute;
+                opacity: 0;
+                top: 0;
+                right: -20px;
+                transition: 0.5s;
+            }
+            .button:hover span {
+                padding-right: 25px;
+            }
+
+            .button:hover span:after {
+                opacity: 1;
+                right: 0;
+            }
+            .contenuEvn{
+                border-collapse: collapse;
+                width: 100%;
+                text-align: center;
+                width:100%;
+            }
+            th, td {
+                text-align: left;
+                padding: 8px;
+            }
+            tr:nth-child(even){background-color: #f2f2f2}
+            th {
+                background-color: #4CAF50;
+                color: white;
+            }
+            .contenuDm{
+                width: 70%;
+                margin: 0 auto;
+            }
+            a{
+                color: black;
+                background-color: transparent;
+                text-decoration: none;
+            }
+        </style>
+
+        <script>
+//            $(function () {
+//                $.ajax({
+//                    url: './ActionServlet',
+//                    type: 'GET',
+//                    data: {
+//                        action: 'admin'
+//                    },
+//                    dataType: 'json'
+//                })
+//                        .done(function (data) {
+//                            var evn = data.evenements;
+//                            var contenuHtml = '<table class="contenuEvn"><tr><th>Evenements à  définir</th><th>Date</th><th>Moment</th><th>Payant</th><th>Statut</th></tr>';
+//                            var i;
+//                            for (i = 0; i < evn.length; i++) {
+//                                contenuHtml += '<tr><td>['+evn[i].id+'] ' + evn[i].denomination + '</td><td>' + evn[i].date + '</td>';
+//                                contenuHtml += '<td>' + evn[i].moment + '</td><td>';
+//                                if (evn[i].payant === true) {
+//                                    contenuHtml += 'Oui' + '</td>';
+//                                } else {
+//                                    contenuHtml += 'Non' + '</td>';
+//                                }
+//                                if(evn[i].statut===true){
+//                                    contenuHtml += '<td>Défini</td></tr>';
+//                                } else{
+//                                    contenuHtml += '<td>A definir</td></tr>';
+//                                }
+//                            }
+//                            contenuHtml += '</table>';
+//                            $('#Events').html(contenuHtml);
+//                        })
+//                        .fail(function () {
+//                            $('#Events').html('ERREUR de chargement');
+//                        })
+//                        .always(function () {
+//                            //
+//                        });
+//            });
+        </script>
     </head>
+
     <body>
-        <div>TODO write content</div>
+        <header>
+            <div id="tete">
+                <table style="width: 100%; padding-left: 50px;padding-right: 50px;">
+                    <tr>
+                        <td>
+                            <h1><a href="accueil.html"><span style="border: 1px solid black; padding-left: 15px; padding-right: 15px;">Collect'IF - Admin</span></a></h1>
+                        </td>
+                        <td>
+                            <button class="button" type="button" onclick="location.href = './admin.html'"><span>Voir tous les événements</span></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </header>
+
+        <div class="contenuDm">
+            <p id="connected"></p>
+            <h2>Événements :</h2>
+            <div id="Events"></div>
+        </div>
     </body>
 </html>
+

@@ -112,16 +112,16 @@
                             var contenuHtml = '<table class="contenuDemandes"><tr><th>Date</th><th>Moment</th><th>Activité</th><th>Payant</th><th>Statut</th></tr>';
                             var i;
                             for (i = 0; i < demandes.length; i++) {
-                                contenuHtml += '<tr><td>['+demandes[i].id +'] ' + demandes[i].date + '</td><td>' + demandes[i].moment + '</td>';
+                                contenuHtml += '<tr><td>[' + demandes[i].id + '] ' + demandes[i].date + '</td><td>' + demandes[i].moment + '</td>';
                                 contenuHtml += '<td>' + demandes[i].name + '</td><td>';
                                 if (demandes[i].payant == true) {
                                     contenuHtml += 'Oui' + '</td>';
                                 } else {
                                     contenuHtml += 'Non' + '</td>';
                                 }
-                                if(demandes[i].statut===true){
+                                if (demandes[i].statut === true) {
                                     contenuHtml += '<td>Validée</td></tr>';
-                                } else{
+                                } else {
                                     contenuHtml += '<td>En validation</td></tr>';
                                 }
                             }
@@ -138,28 +138,25 @@
         </script>
     </head>
 
-
-    <div id="tete">
-        <table style="width: 100%; padding-left: 50px;padding-right: 50px;">
-            <tr>
-                <td>
-                    <h1><a href="accueil.html"><span style="border: 1px solid black; padding-left: 15px; padding-right: 15px;">Collect'IF</span></a></h1>
-                </td>
-                <td class="head">
-                    <button class="button" type="button" onclick="location.href = './posterDemande.html'"><span>Poster une nouvelle demande</span></button>
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="contenuDm">
-        <p id="connected"></p>
-        <section>
+    <body>
+        <header>
+            <div id="tete">
+                <table style="width: 100%; padding-left: 50px;padding-right: 50px;">
+                    <tr>
+                        <td>
+                            <h1><a href="accueil.html"><span style="border: 1px solid black; padding-left: 15px; padding-right: 15px;">Collect'IF</span></a></h1>
+                        </td>
+                        <td class="head">
+                            <button class="button" type="button" onclick="location.href = './posterDemande.html'"><span>Poster une nouvelle demande</span></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </header>
+        <div class="contenuDm">
+            <p id="connected"></p>
             <h2>Mes demandes :</h2>
             <div id="myDemands"></div>
-        </section>
-
-    </div>
-
-
-
+        </div>
+    </body>
+</html>

@@ -70,7 +70,7 @@
             .formTitle{
                 font-size: 20px;
                 font-family: sans-serif;
-
+                text-align: left;
             }
             input[type=text],input[type=email], select {
                 width: 100%;
@@ -90,6 +90,11 @@
                 color: black;
                 background-color: transparent;
                 text-decoration: none;
+            }
+            .cabeza{
+                width: 100%; 
+                padding-left: 65px;
+                padding-right: 75px;
             }
         </style>
 
@@ -146,28 +151,27 @@
             }
         </script>
     </head>
-    <div id="tete">
-        <table class="logo" style="width: 100%; padding-left: 50px;padding-right: 50px;">
-            <tr>
-                <td>
-                    <h1><a href="accueil.html"><span style="border: 1px solid black; padding-left: 15px; padding-right: 15px;">Collect'IF</span></a></h1>
-                </td>
-                <td align="right">
-                    <button class="button" type="button" onclick="location.href = 'demandes.html'" style="width: 300px;">Consulter mes demandes</button>
-                </td>
-            </tr>
-        </table>
-
-    </div>
-
-
     <body>
+        <div id="tete">
+            <table class="cabeza">
+                <tr>
+                    <td>
+                        <h1><a href="accueil.html"><span style="border: 1px solid black; padding-left: 15px; padding-right: 15px;">Collect'IF</span></a></h1>
+                    </td>
+                    <td align="right">
+                        <button class="button" type="button" onclick="location.href = 'demandes.html'" style="width: 300px;">Consulter mes demandes</button>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
         <form action="./ActionServlet" method="POST">
             <input type="hidden" name="action" value="posterDemande" />
+            <h2 style="font-size: 35px;font-family:sans-serif;text-align: center">Poster une demande d'évènement</h2>
             <table align="center">
-                <h2 style="font-size: 35px;font-family:sans-serif;text-align: center">Poster une demande d'évènement</h2>
                 <tr>
-                    <td class="formTitle" text-align: left>
+                    <td class="formTitle" >
                         Moment de la journée
                     </td>
                 </tr>
@@ -181,19 +185,18 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="formTitle" text-align: left>
+                    <td class="formTitle">
                         Activitée
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <select id="activite" name='activite'>
-                            <div id="activite"/>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <td class="formTitle" text-align: left>
+                    <td class="formTitle" >
                         Date
                     </td>
                 </tr>
@@ -272,9 +275,8 @@
                 </tr>
             </table>
         </form>
+        <p id="test"></p>
     </body>
-
-    <p id="test"></p>
     <!--<a href="./listeActivites.html">Liste Activites Minimaliste</a>-->
 
 </html>
