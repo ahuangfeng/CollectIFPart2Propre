@@ -35,7 +35,7 @@ public class ActionServlet extends HttpServlet {
         System.out.println(todo);
         System.out.println("inscription".equals(todo));
         if ("login".equals(todo)) {
-            ActionLogin.run(request,response);
+            ActionLogin.run(request, response);
         } else if ("logged".equals(todo)) {
             String sessionUser = (String) session.getAttribute("user");
             response.setContentType("application/json");
@@ -48,16 +48,18 @@ public class ActionServlet extends HttpServlet {
             ActionListeActivites.run(request, response);
         } else if ("detailActivite".equals(todo)) {
             ActionDetailActivite.run(request, response);
-        } else if("posterDemande".equals(todo)){
+        } else if ("posterDemande".equals(todo)) {
             try {
-                ActionPosterDemande.run(request,response);
+                ActionPosterDemande.run(request, response);
             } catch (Exception ex) {
                 Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if("myDemands".equals(todo)){
-            ActionMyDemands.run(request,response);
-        } else if("listeAdherents".equals(todo)){
-            ActionGetAdherents.run(request,response);
+        } else if ("myDemands".equals(todo)) {
+            ActionMyDemands.run(request, response);
+        } else if ("listeAdherents".equals(todo)) {
+            ActionGetAdherents.run(request, response);
+        } else if ("admin".equals(todo)) {
+            ActionAdminMain.run(request, response);
         }
         out.close();
         JpaUtil.destroy();

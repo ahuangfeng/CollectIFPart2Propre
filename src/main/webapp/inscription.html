@@ -132,12 +132,14 @@
                         var prenom = document.getElementById("prenom").value;
                         var adresse = document.getElementById("adresse").value;
                         var mail = document.getElementById("email").value;
-                        
-                        var url = 'ActionServlet?action=inscription&nom='+nom;
-                        url += '&prenom='+prenom+'&adresse='+adresse+'&email='+mail;
+
+                        var url = 'ActionServlet?action=inscription&nom=' + nom;
+                        url += '&prenom=' + prenom + '&adresse=' + adresse + '&email=' + mail;
                         xmlhttp.open("GET", url, true);
                         xmlhttp.send();
-                        window.location.replace('accueil.html');
+                        xmlhttp.onreadystatechange = function () {
+                            window.location.replace('accueil.html');
+                        };
                     }
                 }
 

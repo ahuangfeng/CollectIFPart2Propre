@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
-        <title>Collect'IF - Mes demandes</title>
+        <title>Collect'IF - Administrateur</title>
         <style type="text/css">
             header{
                 width: 60%;
@@ -71,7 +71,7 @@
                 opacity: 1;
                 right: 0;
             }
-            .contenuDemandes{
+            .contenuEvn{
                 border-collapse: collapse;
                 width: 100%;
                 text-align: center;
@@ -103,33 +103,33 @@
                     url: './ActionServlet',
                     type: 'GET',
                     data: {
-                        action: 'myDemands'
+                        action: 'admin'
                     },
                     dataType: 'json'
                 })
                         .done(function (data) {
-                            var demandes = data.demandes;
-                            var contenuHtml = '<table class="contenuDemandes"><tr><th>Evenements à  définir</th><th>Date</th><th>Moment</th><th>Payant</th><th>Statut</th></tr>';
+                            var evn = data.evenements;
+                            var contenuHtml = '<table class="contenuEvn"><tr><th>Evenements à  définir</th><th>Date</th><th>Moment</th><th>Payant</th><th>Statut</th></tr>';
                             var i;
-                            for (i = 0; i < demandes.length; i++) {
-                                contenuHtml += '<tr><td>' + demandes[i].name + '</td><td>' + demandes[i].date + '</td>';
-                                contenuHtml += '<td>' + demandes[i].moment + '</td><td>';
-                                if (demandes[i].payant == true) {
+                            for (i = 0; i < evn.length; i++) {
+                                contenuHtml += '<tr><td>' + evn[i].denomination + '</td><td>' + evn[i].date + '</td>';
+                                contenuHtml += '<td>' + evn[i].moment + '</td><td>';
+                                if (evn[i].payant == true) {
                                     contenuHtml += 'oui' + '</td>';
                                 } else {
                                     contenuHtml += 'non' + '</td>';
                                 }
-                                if(demandes[i].statut==true){
+                                if(evn[i].statut==true){
                                     contenuHtml += '<td>Defini</td></tr>';
                                 } else{
                                     contenuHtml += '<td>A definir</td></tr>';
                                 }
                             }
                             contenuHtml += '</table>';
-                            $('#myDemands').html(contenuHtml);
+                            $('#Events').html(contenuHtml);
                         })
                         .fail(function () {
-                            $('#myDemands').html('ERREUR de chargement');
+                            $('#Events').html('ERREUR de chargement');
                         })
                         .always(function () {
                             //
@@ -146,7 +146,7 @@
                     <h1><a href="accueil.html"><span style="border: 1px solid black; padding-left: 15px; padding-right: 15px;">Collect'IF</span></a></h1>
                 </td>
                 <td class="head">
-                    <button class="button" type="button" onclick="location.href = './posterDemande.html'"><span>Poster une nouvelle demande</span></button>
+                    <button class="button" type="button" onclick="location.href = './affecterEvents.html'"><span>Affecter les événements</span></button>
                 </td>
             </tr>
         </table>
@@ -156,7 +156,7 @@
         <p id="connected"></p>
         <section>
             <h2>Mes demandes :</h2>
-            <div id="myDemands"></div>
+            <div id="Events"></div>
         </section>
 
     </div>
