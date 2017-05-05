@@ -12,7 +12,7 @@
                 padding: 10px;
                 text-align: center;
             }
-            
+
             .nameCompany {
                 margin: auto;
                 width: 60%;
@@ -97,29 +97,34 @@
         <script>
             "use strict";
             function connection() {
-                //TODO : code connexion
-//                var x;
-//                x = document.getElementById("email").value;
-////                document.getElementById("connected").innerHTML = x;
-//
-//                //Partie Servlet
-//                $.ajax({
-//                    url: './ActionServlet',
-//                    type: 'POST',
-//                    data: {
-//                        action: 'login',
-//                        email: x
-//                    },
-//                    dataType: 'html'
-//                })
-//                        .done(function (data) {
-//                            var contenuHtml = data;
-//                            $('*').html(contenuHtml);
-//                        });
-//                var xmlhttp = new XMLHttpRequest();
-//                var url = './ActionServlet?action=login&email='+document.getElementById("email").value;
-//                xmlhttp.open("GET", url, true);
-//                xmlhttp.send();
+                var emailAdh = document.getElementById("email").value;
+                var xmlhttp = new XMLHttpRequest();
+                var url = './ActionServlet?action=login&email=' + emailAdh;
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                        var data = xmlhttp.responseText;
+                        onRequestResult(data);
+                    } else if (xmlhttp.readyState === 4) {
+                        onRequestError(xmlhttp.status, xmlhttp.responseText);
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+            }
+            
+            function onRequestResult(data) {
+                if(data==="null"){
+                    window.location.replace('./inscription.html');
+                }else if(data==="admin"){
+                    window.location.replace('./admin.html');
+                }else {
+                    window.location.replace('./posterDemande.html');
+                }
+            }
+
+            function onRequestError(status, text) {
+                console.log('HTTP Error' + status + '--' + text);
+                document.getElementById('marche').innerHTML = "Error loading data (" + status + ")";
             }
         </script>
     </head>
@@ -141,7 +146,7 @@
                         <input name="email" id="email" type="email" size="25" placeholder="Ton e-mail">
                     </td>
                     <td>
-                        <button name="action" value="login" class="button" type="submit"><span>Se connecter</span></button>
+                        <button name="action" value="login" class="button" type="button" onclick="connection()"><span>Se connecter</span></button>
                     </td>
                     <td>
                         <button class="button" type="button" onclick="location.href = 'inscription.html'"><span>S'inscrire</span></button>
@@ -160,4 +165,6 @@
             <p>Bienvenue sur Collect'IF ! Dans ce monde toujours plus virtualisé, il est grand temps d'enfin se retrouver</p>
         </div>
     </section>
+    <div id="marche"></div>
+    <p>Statut de "Mes Demandes" c'est quoi ? validation=evenement cree ou methode getTraite()?</p>
 </html>

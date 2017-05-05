@@ -39,7 +39,7 @@ class ActionAdminMain {
             System.out.println(session.getAttribute("user"));
             List<Evnmt> evenements = null;
             try {
-                evenements = ServiceMetier.consulterListeEvtAValider();
+                evenements = ServiceMetier.consulterListeEvt();
                 if (evenements != null) {
                     printDemandesById(out, evenements);
                 }
@@ -55,6 +55,12 @@ class ActionAdminMain {
         JsonArray jsonListe = new JsonArray();
         List<Demande> demandes = null;
         Demande d = null;
+        String date = null;
+        int year = 0;
+        int month = 0;
+        int jourInt = 0;
+        String day ="";
+        String moisString = "";
         for (Evnmt evenement : evenements) {
             demandes = evenement.getMaListeDemandesEVT();
             //TODO : on supose que tous les demandes sont pareil...
@@ -62,7 +68,21 @@ class ActionAdminMain {
             JsonObject jsonEvn = new JsonObject();
             jsonEvn.addProperty("id", evenement.getId());
             jsonEvn.addProperty("denomination", d.getMonActMTO().getDenomination());
-            jsonEvn.addProperty("date", evenement.getDate().toString());
+            year = 1900 + evenement.getDate().getYear();
+            month = evenement.getDate().getMonth()+1;
+            jourInt = evenement.getDate().getDate();
+            if(jourInt<10){
+                day="0"+jourInt;
+            }else{
+                day = String.valueOf(jourInt);
+            }
+            if(month<10){
+                moisString="0"+month;
+            }else{
+                moisString = String.valueOf(month);
+            }
+            date = day+"/"+moisString+'/'+year;
+            jsonEvn.addProperty("date", date);
             jsonEvn.addProperty("moment", evenement.getMoment());
             jsonEvn.addProperty("payant", d.getMonActMTO().getPayant());
             jsonEvn.addProperty("statut", evenement.isPlanifie());

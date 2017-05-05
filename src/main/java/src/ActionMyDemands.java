@@ -62,6 +62,7 @@ class ActionMyDemands {
         String moisString = "";
         for (Demande demande : demandes) {
             JsonObject jsonDemande = new JsonObject();
+            jsonDemande.addProperty("id", demande.getId());
             jsonDemande.addProperty("name", demande.getMonActMTO().getDenomination());
             year = 1900 + demande.getDate().getYear();
             month = demande.getDate().getMonth()+1;

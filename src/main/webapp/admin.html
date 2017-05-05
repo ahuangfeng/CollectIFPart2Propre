@@ -112,15 +112,15 @@
                             var contenuHtml = '<table class="contenuEvn"><tr><th>Evenements à  définir</th><th>Date</th><th>Moment</th><th>Payant</th><th>Statut</th></tr>';
                             var i;
                             for (i = 0; i < evn.length; i++) {
-                                contenuHtml += '<tr><td>' + evn[i].denomination + '</td><td>' + evn[i].date + '</td>';
+                                contenuHtml += '<tr><td>['+evn[i].id+'] ' + evn[i].denomination + '</td><td>' + evn[i].date + '</td>';
                                 contenuHtml += '<td>' + evn[i].moment + '</td><td>';
-                                if (evn[i].payant == true) {
-                                    contenuHtml += 'oui' + '</td>';
+                                if (evn[i].payant === true) {
+                                    contenuHtml += 'Oui' + '</td>';
                                 } else {
-                                    contenuHtml += 'non' + '</td>';
+                                    contenuHtml += 'Non' + '</td>';
                                 }
-                                if(evn[i].statut==true){
-                                    contenuHtml += '<td>Defini</td></tr>';
+                                if(evn[i].statut===true){
+                                    contenuHtml += '<td>Défini</td></tr>';
                                 } else{
                                     contenuHtml += '<td>A definir</td></tr>';
                                 }
@@ -143,7 +143,7 @@
         <table style="width: 100%; padding-left: 50px;padding-right: 50px;">
             <tr>
                 <td>
-                    <h1><a href="accueil.html"><span style="border: 1px solid black; padding-left: 15px; padding-right: 15px;">Collect'IF</span></a></h1>
+                    <h1><a href="accueil.html"><span style="border: 1px solid black; padding-left: 15px; padding-right: 15px;">Collect'IF - Admin</span></a></h1>
                 </td>
                 <td class="head">
                     <button class="button" type="button" onclick="location.href = './affecterEvents.html'"><span>Affecter les événements</span></button>
@@ -155,7 +155,7 @@
     <div class="contenuDm">
         <p id="connected"></p>
         <section>
-            <h2>Mes demandes :</h2>
+            <h2>Événements :</h2>
             <div id="Events"></div>
         </section>
 

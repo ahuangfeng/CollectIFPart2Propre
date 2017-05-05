@@ -6,6 +6,7 @@
 package src;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -29,12 +30,17 @@ class ActionLogin {
         } catch (Exception ex) {
             Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (adherent != null) {
+        PrintWriter out = response.getWriter();
+        if (adherent != null && !("admin@admin.com".equals(adherent.getMail()))){
             System.out.println(adherent.getId());
             session.setAttribute("user", adherent.getId());
-            response.sendRedirect("./posterDemande.html");
-        } else {
-            response.sendRedirect("./inscription.html");
+            out.print(adherent.getId());
+//            response.sendRedirect("./posterDemande.html");
+        } else if(adherent != null && "admin@admin.com".equals(adherent.getMail())){
+            out.print("admin");
+        }else{
+            out.print("null");
+//            response.sendRedirect("./inscription.html");
         }
 
     }

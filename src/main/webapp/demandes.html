@@ -109,20 +109,20 @@
                 })
                         .done(function (data) {
                             var demandes = data.demandes;
-                            var contenuHtml = '<table class="contenuDemandes"><tr><th>Evenements à  définir</th><th>Date</th><th>Moment</th><th>Payant</th><th>Statut</th></tr>';
+                            var contenuHtml = '<table class="contenuDemandes"><tr><th>Date</th><th>Moment</th><th>Activité</th><th>Payant</th><th>Statut</th></tr>';
                             var i;
                             for (i = 0; i < demandes.length; i++) {
-                                contenuHtml += '<tr><td>' + demandes[i].name + '</td><td>' + demandes[i].date + '</td>';
-                                contenuHtml += '<td>' + demandes[i].moment + '</td><td>';
+                                contenuHtml += '<tr><td>['+demandes[i].id +'] ' + demandes[i].date + '</td><td>' + demandes[i].moment + '</td>';
+                                contenuHtml += '<td>' + demandes[i].name + '</td><td>';
                                 if (demandes[i].payant == true) {
-                                    contenuHtml += 'oui' + '</td>';
+                                    contenuHtml += 'Oui' + '</td>';
                                 } else {
-                                    contenuHtml += 'non' + '</td>';
+                                    contenuHtml += 'Non' + '</td>';
                                 }
-                                if(demandes[i].statut==true){
-                                    contenuHtml += '<td>Defini</td></tr>';
+                                if(demandes[i].statut===true){
+                                    contenuHtml += '<td>Validée</td></tr>';
                                 } else{
-                                    contenuHtml += '<td>A definir</td></tr>';
+                                    contenuHtml += '<td>En validation</td></tr>';
                                 }
                             }
                             contenuHtml += '</table>';

@@ -103,7 +103,6 @@
             function submitInscription() {
                 var xmlhttp = new XMLHttpRequest();
                 var url = 'ActionServlet?action=listeAdherents';
-                var mailChoisi = document.getElementById("email").value;
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
                         var data = JSON.parse(xmlhttp.responseText);
@@ -114,25 +113,28 @@
                 };
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
+            }
 
-                function onRequestResult(data) {
-                    var adherents = data.adherent;
-                    var i;
-                    var existant = false;
-                    for (i = 0; i < adherents.length; i++) {
-                        if (mailChoisi == adherents[i].email) {
-                            existant = true;
-                            alert("Le mail saisi existe déjà dans la base de données");
-                            break;
-                        }
+            function onRequestResult(data) {
+                var adherents = data.adherent;
+                var i;
+                var mailChoisi = document.getElementById("email").value;
+                var existant = false;
+                for (i = 0; i < adherents.length; i++) {
+                    if (mailChoisi === adherents[i].email) {
+                        existant = true;
+                        alert("Le mail saisi existe déjà dans la base de données");
+                        break;
                     }
-                    if (!existant) {
-                        var xmlhttp = new XMLHttpRequest();
-                        var nom = document.getElementById("nom").value;
-                        var prenom = document.getElementById("prenom").value;
-                        var adresse = document.getElementById("adresse").value;
-                        var mail = document.getElementById("email").value;
+                }
+                if (!existant) {
+                    var xmlhttp = new XMLHttpRequest();
+                    var nom = document.getElementById("nom").value;
+                    var prenom = document.getElementById("prenom").value;
+                    var adresse = document.getElementById("adresse").value;
+                    var mail = document.getElementById("email").value;
 
+                    if (validateEmail(mail)) {
                         var url = 'ActionServlet?action=inscription&nom=' + nom;
                         url += '&prenom=' + prenom + '&adresse=' + adresse + '&email=' + mail;
                         xmlhttp.open("GET", url, true);
@@ -140,15 +142,21 @@
                         xmlhttp.onreadystatechange = function () {
                             window.location.replace('accueil.html');
                         };
+                    }else{
+                        alert("Email saisie pas valide !");
                     }
                 }
-
-                function onRequestError(status, text) {
-                    console.log('HTTP Error' + status + '--' + text);
-                    document.getElementById('marche').innerHTML = "Error loading data (" + status + ")";
-                }
             }
-            ;
+
+            function onRequestError(status, text) {
+                console.log('HTTP Error' + status + '--' + text);
+                document.getElementById('marche').innerHTML = "Error loading data (" + status + ")";
+            }
+
+            function validateEmail(email) {
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
+            }
         </script>
 
     </head>
