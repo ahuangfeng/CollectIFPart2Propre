@@ -5,8 +5,7 @@
         <title>Collect'IF - Poster une demande</title>
         <style type="text/css">
             header{
-                width: 60%;
-                padding: 5px;
+                width: 100%;
                 margin-top: 0px;
                 margin-left: 20px;
                 text-align: left;
@@ -152,23 +151,24 @@
         </script>
     </head>
     <body>
-        <div id="tete">
-            <table class="cabeza">
-                <tr>
-                    <td>
-                        <h1><a href="accueil.html"><span style="border: 1px solid black; padding-left: 15px; padding-right: 15px;">Collect'IF</span></a></h1>
-                    </td>
-                    <td align="right">
-                        <button class="button" type="button" onclick="location.href = 'demandes.html'" style="width: 300px;">Consulter mes demandes</button>
-                    </td>
-                </tr>
-            </table>
+        <header>
+            <div id="tete">
+                <table class="cabeza">
+                    <tr>
+                        <td>
+                            <h1><a href="accueil.html"><span style="border: 1px solid black; padding-left: 15px; padding-right: 15px;">Collect'IF</span></a></h1>
+                        </td>
+                        <td style="text-align: right">
+                            <button class="button" type="button" onclick="location.href = 'demandes.html'" style="width: 300px;">Consulter mes demandes</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </header>
 
-        </div>
-
+        <h2 style="font-size: 35px;font-family:sans-serif;text-align: center">Poster une demande d'évènement</h2>
         <form action="./ActionServlet" method="POST">
             <input type="hidden" name="action" value="posterDemande" />
-            <h2 style="font-size: 35px;font-family:sans-serif;text-align: center">Poster une demande d'évènement</h2>
             <table align="center">
                 <tr>
                     <td class="formTitle" >
