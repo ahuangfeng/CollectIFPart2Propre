@@ -13,7 +13,6 @@ import dao.JpaUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
@@ -76,7 +75,7 @@ class ActionGetDemandsAffecter {
             JsonObject jsonEvent = new JsonObject();
             jsonEvent.addProperty("id", evenement.getId());
             jsonEvent.addProperty("denomination", d.getMonActMTO().getDenomination());
-            year = 1900 + calendar.get(Calendar.YEAR);
+            year = calendar.get(Calendar.YEAR);
             month = calendar.get(Calendar.MONTH) + 1;
             jourInt = calendar.get(Calendar.DAY_OF_MONTH);
             if (jourInt < 10) {
