@@ -60,6 +60,8 @@ public class ActionServlet extends HttpServlet {
             ActionGetDemandsAffecter.run(request,response);
         } else if("getLieu".equals(todo)){
             ActionGetLieu.run(request,response);
+        } else if("afectation".equals(todo)){
+            ActionGetCoordonnes.run(request,response);
         }
         out.close();
     }
