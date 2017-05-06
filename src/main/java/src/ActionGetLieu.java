@@ -18,43 +18,64 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import metier.modele.Activite;
+import metier.modele.Lieu;
 import metier.service.ServiceMetier;
+import static src.ActionListeActivites.printListeActivite;
 
 /**
  *
  * @author alexh
  */
-public class ActionListeActivites {
+class ActionGetLieu {
 
     static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JpaUtil.init();
         PrintWriter out = response.getWriter();
-        List<Activite> activite = null;
+        List<Lieu> lieus = null;
         try {
-            activite = ServiceMetier.consulterListeActivite();
+            lieus = ServiceMetier.consulterListeLieu();
         } catch (Exception ex) {
             Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         response.setContentType("application/json");
         //Appel methode pour printer les activites
-        printListeActivite(out, activite);
+        if (lieus != null) {
+            printLieus(out, lieus);
+        } else {
+            printError(out);
+        }
         JpaUtil.destroy();
     }
-    
-    public static void printListeActivite(PrintWriter out, List<Activite> Activite) {
-        //TODO remetre la conversion à JSON dans ActionServlet
+
+    private static void printLieus(PrintWriter out, List<Lieu> lieus) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         JsonArray jsonListe = new JsonArray();
-        for (Activite a : Activite) {
-            JsonObject jsonActivite = new JsonObject();
-            jsonActivite.addProperty("id", a.getId());
-            jsonActivite.addProperty("denomination", a.getDenomination());
-            jsonListe.add(jsonActivite);
+        for (Lieu lieu : lieus) {
+            JsonObject jsonLieu = new JsonObject();
+            jsonLieu.addProperty("id", lieu.getId());
+            jsonLieu.addProperty("lieu", lieu.getDenomination());
+            jsonLieu.addProperty("longitude", lieu.getLongitude());
+            jsonLieu.addProperty("latitude", lieu.getLatitude());
+            jsonListe.add(jsonLieu);
         }
         JsonObject container = new JsonObject();
-        container.add("activites", jsonListe);
+        container.add("lieu", jsonListe);
+        out.println(gson.toJson(container));
+    }
+
+    //revoir cette methode
+    private static void printError(PrintWriter out) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        JsonArray jsonListe = new JsonArray();
+        JsonObject jsonLieu = new JsonObject();
+        jsonLieu.addProperty("id", "Pas de lieux dispo");
+        jsonLieu.addProperty("lieu", "Pas de lieux dispo");
+        jsonListe.add(jsonLieu);
+        JsonObject container = new JsonObject();
+        container.add("lieu", jsonListe);
         out.println(gson.toJson(container));
     }
 

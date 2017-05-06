@@ -5,6 +5,7 @@
  */
 package src;
 
+import dao.JpaUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -20,6 +21,7 @@ import metier.service.ServiceMetier;
 public class ActionInscription {
 
     static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        JpaUtil.init();
         PrintWriter out = response.getWriter();
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
@@ -39,5 +41,6 @@ public class ActionInscription {
         } else {
             response.sendRedirect("./error.html");
         }
+        JpaUtil.destroy();
     }
 }

@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import dao.JpaUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -27,6 +28,7 @@ import metier.service.ServiceMetier;
 class ActionMyDemands {
 
     static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        JpaUtil.init();
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         response.setContentType("application/json");
@@ -48,6 +50,7 @@ class ActionMyDemands {
                 Logger.getLogger(ActionMyDemands.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        JpaUtil.destroy();
     }
 
     private static void printDemandesById(PrintWriter out, List<Demande> demandes) {

@@ -5,10 +5,13 @@
  */
 package src;
 
+import dao.JpaUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,18 +25,28 @@ import metier.service.ServiceMetier;
  */
 class ActionPosterDemande {
 
-    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
+    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        JpaUtil.init();
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         if (session.isNew()) {
             out.print("Error");
-            response.sendRedirect("./error.html");
+            try {
+                response.sendRedirect("./error.html");
+            } catch (IOException ex) {
+                Logger.getLogger(ActionPosterDemande.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             //casting du session marche pas!
             System.out.println(session.getAttribute("user"));
             Long sessionUser = (Long) session.getAttribute("user");
             Adherent adherent = null;
-            List<Adherent> adherents = ServiceMetier.consulterListeAdherent();
+            List<Adherent> adherents = null;
+            try {
+                adherents = ServiceMetier.consulterListeAdherent();
+            } catch (Exception ex) {
+                Logger.getLogger(ActionPosterDemande.class.getName()).log(Level.SEVERE, null, ex);
+            }
             for (Adherent adh : adherents) {
                 if (adh.getId().equals(sessionUser)) {
                     adherent = adh;
@@ -61,7 +74,12 @@ class ActionPosterDemande {
                     return;
                 }
                 Demande demande = new Demande(date, moment);
-                boolean confirme = ServiceMetier.saveDemande(adherent, demande, idActivite);
+                boolean confirme=false;
+                try {
+                    confirme = ServiceMetier.saveDemande(adherent, demande, idActivite);
+                } catch (Exception ex) {
+                    Logger.getLogger(ActionPosterDemande.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 if (confirme) {
                     out.println("Demande cree : " + demande.toString());
                     out.println("Adherent : " + adherent.toString());
@@ -73,6 +91,7 @@ class ActionPosterDemande {
                 out.print("Pas de session active");
             }
         }
+        JpaUtil.destroy();
     }
 
 }

@@ -12,6 +12,9 @@ import com.google.gson.JsonObject;
 import dao.JpaUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +29,7 @@ import metier.service.ServiceMetier;
  *
  * @author alexh
  */
-class ActionAdminMain {
+class ActionGetDemandsAffecter {
 
     static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JpaUtil.init();
@@ -37,13 +40,13 @@ class ActionAdminMain {
             out.print("Error");
             response.sendRedirect("./error.html");
         } else {
-            //casting du session marche pas!
-            System.out.println(session.getAttribute("user"));
             List<Evnmt> evenements = null;
             try {
-                evenements = ServiceMetier.consulterListeEvt();
+                evenements = ServiceMetier.consulterListeEvtAValider();
                 if (evenements != null) {
-                    printDemandesById(out, evenements);
+                    printEvenementsAffecter(out, evenements);
+                } else {
+                    printEventVide(out, evenements);
                 }
             } catch (Exception ex) {
                 Logger.getLogger(ActionMyDemands.class.getName()).log(Level.SEVERE, null, ex);
@@ -52,48 +55,59 @@ class ActionAdminMain {
         JpaUtil.destroy();
     }
 
-    private static void printDemandesById(PrintWriter out, List<Evnmt> evenements) {
+    private static void printEvenementsAffecter(PrintWriter out, List<Evnmt> evenements) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         JsonArray jsonListe = new JsonArray();
-        List<Demande> demandes = null;
-        Demande d = null;
         String date = null;
         int year = 0;
         int month = 0;
         int jourInt = 0;
-        String day ="";
+        String day = "";
         String moisString = "";
+        List<Demande> demandes = null;
+        Demande d = null;
+        Calendar calendar = new GregorianCalendar();
         for (Evnmt evenement : evenements) {
+            //TODO: On supose que toutes les demandes sont les meme!?
             demandes = evenement.getMaListeDemandesEVT();
-            //TODO : on supose que tous les demandes sont pareil...
             d = demandes.get(0);
-            JsonObject jsonEvn = new JsonObject();
-            jsonEvn.addProperty("id", evenement.getId());
-            jsonEvn.addProperty("denomination", d.getMonActMTO().getDenomination());
-            year = 1900 + evenement.getDate().getYear();
-            month = evenement.getDate().getMonth()+1;
-            jourInt = evenement.getDate().getDate();
-            if(jourInt<10){
-                day="0"+jourInt;
-            }else{
+            calendar.setTime(d.getDate());
+            JsonObject jsonEvent = new JsonObject();
+            jsonEvent.addProperty("id", evenement.getId());
+            jsonEvent.addProperty("denomination", d.getMonActMTO().getDenomination());
+            year = 1900 + calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH) + 1;
+            jourInt = calendar.get(Calendar.DAY_OF_MONTH);
+            if (jourInt < 10) {
+                day = "0" + jourInt;
+            } else {
                 day = String.valueOf(jourInt);
             }
-            if(month<10){
-                moisString="0"+month;
-            }else{
+            if (month < 10) {
+                moisString = "0" + month;
+            } else {
                 moisString = String.valueOf(month);
             }
-            date = day+"/"+moisString+'/'+year;
-            jsonEvn.addProperty("date", date);
-            jsonEvn.addProperty("moment", evenement.getMoment());
-            jsonEvn.addProperty("payant", d.getMonActMTO().getPayant());
-            jsonEvn.addProperty("statut", evenement.isPlanifie());
-            jsonListe.add(jsonEvn);
+            date = day + "/" + moisString + '/' + year;
+            jsonEvent.addProperty("date", date);
+            jsonEvent.addProperty("moment", d.getMoment());
+            jsonListe.add(jsonEvent);
         }
         JsonObject container = new JsonObject();
-        container.add("evenements", jsonListe);
+        container.add("Evenement", jsonListe);
         out.println(gson.toJson(container));
     }
-    
+
+    private static void printEventVide(PrintWriter out, List<Evnmt> evenements) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonArray jsonListe = new JsonArray();
+        JsonObject jsonEvent = new JsonObject();
+        jsonEvent.addProperty("data", "Aucun evenement à affecter");
+        jsonListe.add(jsonEvent);
+        JsonObject container = new JsonObject();
+        container.add("Evenement", jsonListe);
+        out.println(gson.toJson(container));
+    }
+
 }

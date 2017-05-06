@@ -25,16 +25,20 @@
                 width: 60%;
                 padding: 10px;
             }
+            .petit{
+                height: 40px;
+                width: 200px;
+            }
+            .grand{
+                height: 60px;
+                width: 270px;
+            }
             .button {
                 background-color: #4CAF50; /* Green */
                 border: none;
-                margin-top: 0px;
-                top: 13%;
-                left : 75%;
                 color: white;
-                height: 70px;
-                padding: 10px 10px;
-                text-align: right;
+                padding: 10px 30px;
+                text-align: center;
                 text-decoration: none;
                 display: inline-block;
                 font-family: sans-serif;
@@ -70,25 +74,19 @@
                 opacity: 1;
                 right: 0;
             }
-            .contenuEvn{
-                border-collapse: collapse;
-                width: 100%;
-                text-align: center;
-                width:100%;
-            }
             th, td {
                 /*text-align: left;*/
-                padding: 8px;
+                /*padding: 8px;*/
             }
-            tr:nth-child(even){background-color: #f2f2f2}
+            /*tr:nth-child(even){background-color: #f2f2f2}*/
             th {
                 background-color: #4CAF50;
                 color: white;
             }
-            .contenuDm{
-                width: 70%;
-                margin: 0 auto;
-            }
+            /*            .contenuDm{
+                            width: 70%;
+                            margin: 0 auto;
+                        }*/
             a{
                 color: black;
                 background-color: transparent;
@@ -102,44 +100,70 @@
         </style>
 
         <script>
-//            $(function () {
-//                $.ajax({
-//                    url: './ActionServlet',
-//                    type: 'GET',
-//                    data: {
-//                        action: 'admin'
-//                    },
-//                    dataType: 'json'
-//                })
-//                        .done(function (data) {
-//                            var evn = data.evenements;
-//                            var contenuHtml = '<table class="contenuEvn"><tr><th>Evenements à  définir</th><th>Date</th><th>Moment</th><th>Payant</th><th>Statut</th></tr>';
-//                            var i;
-//                            for (i = 0; i < evn.length; i++) {
-//                                contenuHtml += '<tr><td>['+evn[i].id+'] ' + evn[i].denomination + '</td><td>' + evn[i].date + '</td>';
-//                                contenuHtml += '<td>' + evn[i].moment + '</td><td>';
-//                                if (evn[i].payant === true) {
-//                                    contenuHtml += 'Oui' + '</td>';
-//                                } else {
-//                                    contenuHtml += 'Non' + '</td>';
-//                                }
-//                                if(evn[i].statut===true){
-//                                    contenuHtml += '<td>Défini</td></tr>';
-//                                } else{
-//                                    contenuHtml += '<td>A definir</td></tr>';
-//                                }
-//                            }
-//                            contenuHtml += '</table>';
-//                            $('#Events').html(contenuHtml);
-//                        })
-//                        .fail(function () {
-//                            $('#Events').html('ERREUR de chargement');
-//                        })
-//                        .always(function () {
-//                            //
-//                        });
-//            });
+            var xmlhttp = new XMLHttpRequest();
+            var url = 'ActionServlet?action=demandsAffecter';
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                    var data = JSON.parse(xmlhttp.responseText);
+                    onRequestResult(data);
+                    chargeLieus();
+                } else if (xmlhttp.readyState === 4) {
+                    onRequestError(xmlhttp.status, xmlhttp.responseText);
+                }
+                function onRequestResult(data) {
+                    var evn = data.Evenement;
+                    var html = "";
+                    var i;
+                    for (i = 0; i < evn.length; i++) {
+                        html += "<option value=" + evn[i].id + ">" + evn[i].denomination + '+' + evn[i].date + '+' + evn[i].moment + '</option>';
+                    }
+                    html += '';
+                    document.getElementById('evennementAaffecter').innerHTML = html;
+                }
+
+                function onRequestError(status, text) {
+                    console.log('HTTP Error' + status + '--' + text);
+                    document.getElementById('evennementAaffecter').innerHTML = "Error loading data (" + status + ")";
+                }
+            };
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send();
+
+
+            function chargeLieus() {
+                var xmlHttp = new XMLHttpRequest();
+                var url = 'ActionServlet?action=getLieu';
+
+                xmlHttp.onreadystatechange = function () {
+                    if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                        var data = JSON.parse(xmlHttp.responseText);
+                        onRequestResult(data);
+                    } else if (xmlHttp.readyState === 4) {
+                        onRequestError(xmlHttp.status, xmlHttp.responseText);
+                    }
+                };
+                xmlHttp.open("GET", url, true);
+                xmlHttp.send();
+
+                function onRequestResult(data) {
+                    var lieu = data.lieu;
+                    var html = "";
+                    var i;
+                    for (i = 0; i < lieu.length; i++) {
+                        html += "<option value=" + lieu[i].id + ">" + lieu[i].lieu + '</option>';
+                    }
+                    html += '';
+                    document.getElementById('lieu').innerHTML = html;
+                }
+
+                function onRequestError(status, text) {
+                    console.log('HTTP Error' + status + '--' + text);
+                    document.getElementById('lieu').innerHTML = "Error loading data (" + status + ")";
+                }
+            }
         </script>
+
     </head>
 
     <body>
@@ -151,17 +175,43 @@
                             <h1><a href="accueil.html"><span style="border: 1px solid black; padding-left: 15px; padding-right: 15px;">Collect'IF - Admin</span></a></h1>
                         </td>
                         <td style="text-align: right; padding-right: 10%">
-                            <button class="button" type="button" onclick="location.href = './admin.html'"><span>Voir tous les événements</span></button>
+                            <button class="button grand" type="button" onclick="location.href = './admin.html'"><span>Voir tous les événements</span></button>
                         </td>
                     </tr>
                 </table>
             </div>
         </header>
 
-        <div class="contenuDm">
-            <p id="connected"></p>
-            <h2 style="font-family: sans-serif">Événements :</h2>
-            <div id="Events"></div>
+        <div id="map" style="float: right">
+            <p>mapa</p>
+        </div>
+        <div class="data" style="float: left">
+            <div id="events" ></div>
+            <div id="validate" >
+                <table>
+                    <tr>
+                        <td>
+                            <select id="evennementAaffecter" name="event"></select>
+                        </td>
+                        <td>
+                            <button class="button petit" type="button" onclick="affecterLieu()"><span>Affecter un lieu</span></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input id="paf" name="paf" type="number" min="0" placeholder="(PAF)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select id="lieu" name="lieu"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </body>
 </html>

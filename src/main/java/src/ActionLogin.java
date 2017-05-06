@@ -5,6 +5,7 @@
  */
 package src;
 
+import dao.JpaUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -22,6 +23,7 @@ import metier.service.ServiceMetier;
 class ActionLogin {
 
     static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        JpaUtil.init();
         String user = request.getParameter("email");
         HttpSession session = request.getSession();
         Adherent adherent = null;
@@ -42,6 +44,7 @@ class ActionLogin {
             out.print("null");
 //            response.sendRedirect("./inscription.html");
         }
+        JpaUtil.destroy();
 
     }
 

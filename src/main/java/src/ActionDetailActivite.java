@@ -8,6 +8,7 @@ package src;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import dao.JpaUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -26,6 +27,7 @@ import metier.service.ServiceMetier;
 public class ActionDetailActivite {
 
     static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        JpaUtil.init();
         PrintWriter out = response.getWriter();
         String actID = request.getParameter("id");
         Long id = Long.parseLong(actID);
@@ -39,6 +41,7 @@ public class ActionDetailActivite {
         response.setCharacterEncoding("UTF-8");
         //Appel methode pour printer les activites
         printDetailActivite(out, Activite, id);
+        JpaUtil.destroy();
     }
 
     public static void printDetailActivite(PrintWriter out, List<Activite> activites, Long id) {

@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import dao.JpaUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -28,6 +29,7 @@ import static src.ActionListeActivites.printListeActivite;
 class ActionGetAdherents {
 
     static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        JpaUtil.init();
         PrintWriter out = response.getWriter();
         List<Adherent> adherents = null;
         try {
@@ -39,6 +41,7 @@ class ActionGetAdherents {
         response.setContentType("application/json");
         //Appel methode pour printer les activites
         printListeAdherents(out, adherents);
+        JpaUtil.destroy();
     }
 
     private static void printListeAdherents(PrintWriter out, List<Adherent> adherents) {

@@ -24,7 +24,6 @@ public class ActionServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        JpaUtil.init();
         //Session
         HttpSession session = request.getSession();
         request.setCharacterEncoding("UTF-8");
@@ -37,6 +36,7 @@ public class ActionServlet extends HttpServlet {
         if ("login".equals(todo)) {
             ActionLogin.run(request, response);
         } else if ("logged".equals(todo)) {
+            //Effacer
             String sessionUser = (String) session.getAttribute("user");
             response.setContentType("application/json");
             printUser(out, sessionUser);
@@ -49,20 +49,19 @@ public class ActionServlet extends HttpServlet {
         } else if ("detailActivite".equals(todo)) {
             ActionDetailActivite.run(request, response);
         } else if ("posterDemande".equals(todo)) {
-            try {
                 ActionPosterDemande.run(request, response);
-            } catch (Exception ex) {
-                Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
         } else if ("myDemands".equals(todo)) {
             ActionMyDemands.run(request, response);
         } else if ("listeAdherents".equals(todo)) {
             ActionGetAdherents.run(request, response);
         } else if ("admin".equals(todo)) {
             ActionAdminMain.run(request, response);
+        } else if("demandsAffecter".equals(todo)){
+            ActionGetDemandsAffecter.run(request,response);
+        } else if("getLieu".equals(todo)){
+            ActionGetLieu.run(request,response);
         }
         out.close();
-        JpaUtil.destroy();
     }
 
     /**
