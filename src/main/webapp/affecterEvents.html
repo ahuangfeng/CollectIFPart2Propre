@@ -263,6 +263,7 @@
                 function onRequestResult(data) {
                     clearMarkers();
                     var coord = data.adherent;
+                    var lieu = data.lieu;
                     for (i = 0; i < coord.length; i++) {
                         var long = coord[i].longitude;
                         var lat = coord[i].latitude;
@@ -271,7 +272,16 @@
                         marker = new google.maps.Marker({position: myLatlng, title: idAd});
                         tabMarkers.push( marker);
                         tabMarkers[i].setMap(map);
-                    }    
+                    }
+                    for (i = 0; i < lieu.length; i++) {
+                        var long = lieu[i].longitude;
+                        var lat = lieu[i].latitude;
+                        var myLatlng = new google.maps.LatLng(lat, long);
+                        var idAd = lieu[i].id;
+                        marker = new google.maps.Marker({position: myLatlng, title: idAd});
+                        tabMarkers.push( marker);
+                        tabMarkers[i].setMap(map);
+                    }
                     //TODO : PAF défini dans la base de donnes ou a l'admin de le definir ?
 //                    if(coord[1]!== null){
 //                        document.getElementById('paf').value = coord[1].paf;
