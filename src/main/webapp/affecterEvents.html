@@ -3,16 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
-        <script type="text/javascript">
-            function myMap() {
-                var mapProp = {
-                    center: new google.maps.LatLng(45.772250, 4.875923),
-                    zoom: 14
-                };
-                var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-            }
-        </script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBd82M8EDJ3WNL3clk0Vvib4EozpbRoG8&callback=myMap" async defer></script>
         <title>Collect'IF - Administrateur</title>
         <style type="text/css">
             header{
@@ -84,19 +74,10 @@
                 opacity: 1;
                 right: 0;
             }
-            th, td {
-                /*text-align: left;*/
-                /*padding: 8px;*/
-            }
-            /*tr:nth-child(even){background-color: #f2f2f2}*/
             th {
                 background-color: #4CAF50;
                 color: white;
             }
-            /*            .contenuDm{
-                            width: 70%;
-                            margin: 0 auto;
-                        }*/
             a{
                 color: black;
                 background-color: transparent;
@@ -134,16 +115,26 @@
                 height: 500px;
             }
         </style>
-
         <script type="text/javascript">
-
+            //Charge le map tou d'abord
+            var map;
+            var marker = [];
+            function myMap() {
+                var mapProp = {
+                    center: new google.maps.LatLng(45.772250, 4.875923),
+                    zoom: 14
+                };
+                map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+            }
+            
+            //Charger les evenements
             var xmlhttp = new XMLHttpRequest();
             var url = 'ActionServlet?action=admin';
-
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
                     var data = JSON.parse(xmlhttp.responseText);
                     onRequestResult(data);
+                    //passer à la fonction next plus tard
                     next();
                 } else if (xmlhttp.readyState === 4) {
                     onRequestError(xmlhttp.status, xmlhttp.responseText);
@@ -178,6 +169,7 @@
             xmlhttp.open("GET", url, true);
             xmlhttp.send();
 
+            //essaye de charger les deux select du html avec donnes de la base de donnes 
             function next() {
                 var xmlhttp = new XMLHttpRequest();
                 var url = 'ActionServlet?action=demandsAffecter';
@@ -210,6 +202,7 @@
                 xmlhttp.send();
             }
 
+            //fonction pour mettre de marqueurs des adherents sur la carte googleMap
             function chargeLieus() {
                 var xmlHttp = new XMLHttpRequest();
                 var url = 'ActionServlet?action=getLieu';
@@ -242,18 +235,65 @@
                 }
             }
 
-        </script>
-
-        <script>
+            //TODO : fonction pour affecter un lieu a un evenement, pas fini encore
             function affecterLieu() {
-                //TODO!
+                var xmlhttp = new XMLHttpRequest();
+                var event = document.getElementById("evennementAaffecter").value;
+                var url = 'ActionServlet?action=afectation&idEvent=' + event;
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                        var data = JSON.parse(xmlhttp.responseText);
+                        onRequestResult(data);
+                    } else if (xmlhttp.readyState === 4) {
+                        onRequestError(xmlhttp.status, xmlhttp.responseText);
+                    }
+                };
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+
+                function onRequestResult(data) {
+                    var coord = data.adherent;
+//                    clearMarkers();
+                    for (i = 0; i < coord.length; i++) {
+                        var long = coord[i].longitude;
+                        var lat = coord[i].latitude;
+                        var myLatlng = new google.maps.LatLng(lat, long);
+                        var idAd = coord[i].id;
+                        marker = new google.maps.Marker({position: myLatlng, title: idAd});
+                        marker.setMap(map);
+                    }
+                    //TODO : PAF défini dans la base de donnes ou a l'admin de le definir ?
+//                    if(coord[1]!== null){
+//                        document.getElementById('paf').value = coord[1].paf;
+//                    }
+                }
+
+                function onRequestError(status, text) {
+                    console.log('HTTP Error' + status + '--' + text);
+                    document.getElementById('listeActivites').innerHTML = "Error loading data (" + status + ")";
+                }
             }
+
+//            function setMapOnAll(map) {
+//                for (var i = 0; i < markers.length; i++) {
+//                    markers[i].setMap(map);
+//                }
+//            }
+//            function clearMarkers() {
+//                setMapOnAll(null);
+//            }
+//
+//            function deleteMarkers() {
+//                clearMarkers();
+//                markers = [];
+//            }
 
             function valider() {
                 //TODO
             }
         </script>
-
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBd82M8EDJ3WNL3clk0Vvib4EozpbRoG8&callback=myMap" async defer></script>
     </head>
 
     <body>
@@ -272,40 +312,42 @@
             </div>
         </header>
         <div style="margin-right: 30px;margin-left: 30px;">
-        <div class="data" style="float: left;width: 45%;padding-left: 5px;padding-right: 5px;">
-            <div id="events" style="padding-bottom: 30px;"></div>
-            <div id="validate" >
-                <table>
-                    <tr>
-                        <td>
-                            <select id="evennementAaffecter" name="event"></select>
-                        </td>
-                        <td>
-                            <button class="button petit" type="button" onclick="affecterLieu()"><span>Affecter un lieu</span></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input id="paf" name="paf" type="number" min="0" placeholder="(PAF)">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select id="lieu" name="lieu"></select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <button class="button petit" type="button" onclick="valider()"><span>Valider</span></button>
-                        </td>
-                    </tr>
-                </table>
+            <div class="data" style="float: left;width: 45%;padding-left: 5px;padding-right: 5px;">
+                <div id="events" style="padding-bottom: 30px;"></div>
+                <div id="validate" >
+                    <table>
+                        <tr>
+                            <td>
+                                <select id="evennementAaffecter" name="event"></select>
+                            </td>
+                            <td>
+                                <button class="button petit" type="button" onclick="affecterLieu()"><span>Affecter un lieu</span></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input id="paf" name="paf" type="number" min="0" placeholder="(PAF)">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select id="lieu" name="lieu"></select>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button class="button petit" type="button" onclick="valider()"><span>Valider</span></button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div id="googleMap" class="map">
-            <h2>AIzaSyCBd82M8EDJ3WNL3clk0Vvib4EozpbRoG8</h2>
-        </div>
+            <div id="googleMap" class="map">
+                <h2>AIzaSyCBd82M8EDJ3WNL3clk0Vvib4EozpbRoG8</h2>
+            </div>
         </div>
     </body>
 </html>
