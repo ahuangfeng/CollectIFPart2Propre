@@ -126,7 +126,7 @@
                 };
                 map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
             }
-            
+
             //Charger les evenements
             var xmlhttp = new XMLHttpRequest();
             var url = 'ActionServlet?action=admin';
@@ -223,7 +223,7 @@
                     var html = "";
                     var i;
                     for (i = 0; i < lieu.length; i++) {
-                        html += "<option value=" + lieu[i].id + ">" + lieu[i].lieu + '</option>';
+                        html += "<option value=" + lieu[i].id + ">" + "[" + lieu[i].id + "] " + lieu[i].lieu + '</option>';
                     }
                     html += '';
                     document.getElementById('lieu').innerHTML = html;
@@ -234,7 +234,7 @@
                     document.getElementById('lieu').innerHTML = "Error loading data (" + status + ")";
                 }
             }
-            var tabMarkers=[];    
+            var tabMarkers = [];
             //TODO : fonction pour affecter un lieu a un evenement, pas fini encore
             function affecterLieu() {
                 var xmlhttp = new XMLHttpRequest();
@@ -251,10 +251,10 @@
                 };
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
-                
-                function clearMarkers(){
+
+                function clearMarkers() {
                     var i, nb = tabMarkers.length;
-                    for( i=0; i < nb; i++){
+                    for (i = 0; i < nb; i++) {
                         tabMarkers[i].setMap(null); //désactive l'affichage des données du tableau sur la carte
                     }
                     tabMarkers = []; //remise à zero du tableau de marqueurs
@@ -269,8 +269,8 @@
                         var lat = coord[i].latitude;
                         var myLatlng = new google.maps.LatLng(lat, long);
                         var idAd = coord[i].id;
-                        marker = new google.maps.Marker({position: myLatlng, title: idAd});
-                        tabMarkers.push( marker);
+                        marker = new google.maps.Marker({position: myLatlng, title: "" + idAd, label: "Adh[" + idAd + "]"}); // idAd
+                        tabMarkers.push(marker);
                         tabMarkers[i].setMap(map);
                     }
                     for (i = 0; i < lieu.length; i++) {
@@ -278,8 +278,8 @@
                         var lat = lieu[i].latitude;
                         var myLatlng = new google.maps.LatLng(lat, long);
                         var idAd = lieu[i].id;
-                        marker = new google.maps.Marker({position: myLatlng, title: idAd});
-                        tabMarkers.push( marker);
+                        marker = new google.maps.Marker({position: myLatlng, title: "" + idAd, label: "Lieu[" + idAd + "]"});
+                        tabMarkers.push(marker);
                         tabMarkers[i].setMap(map);
                     }
                     //TODO : PAF défini dans la base de donnes ou a l'admin de le definir ?
@@ -293,20 +293,6 @@
                     document.getElementById('listeActivites').innerHTML = "Error loading data (" + status + ")";
                 }
             }
-
-//            function setMapOnAll(map) {
-//                for (var i = 0; i < markers.length; i++) {
-//                    markers[i].setMap(map);
-//                }
-//            }
-//            function clearMarkers() {
-//                setMapOnAll(null);
-//            }
-//
-//            function deleteMarkers() {
-//                clearMarkers();
-//                markers = [];
-//            }
 
             function valider() {
                 //TODO
