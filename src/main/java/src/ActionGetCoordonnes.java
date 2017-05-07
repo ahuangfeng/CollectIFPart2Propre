@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import metier.modele.Adherent;
 import metier.modele.EvPayant;
 import metier.modele.Evnmt;
+import metier.modele.Lieu;
 import metier.service.ServiceMetier;
 
 /**
@@ -36,6 +37,7 @@ class ActionGetCoordonnes {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         List<Adherent> adherents = null;
+        List<Lieu> lieux = null;
         if (session.isNew()) {
             response.sendRedirect("./error.html");
         } else {
@@ -50,7 +52,8 @@ class ActionGetCoordonnes {
                     }
                 }
                 adherents = ServiceMetier.consulterListeParticipant(evenAValider);
-                printEvent(out, adherents, evenAValider);
+                lieux = ServiceMetier.consulterListeLieu();
+                printEvent(out, adherents,lieux, evenAValider);
             } catch (Exception ex) {
                 Logger.getLogger(ActionGetCoordonnes.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -58,7 +61,7 @@ class ActionGetCoordonnes {
         JpaUtil.destroy();
     }
 
-    private static void printEvent(PrintWriter out, List<Adherent> adherents, Evnmt evnmt) {
+    private static void printEvent(PrintWriter out, List<Adherent> adherents,List<Lieu> lieux, Evnmt evnmt) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         JsonArray jsonListe = new JsonArray();
@@ -72,9 +75,17 @@ class ActionGetCoordonnes {
             jsonAdh.addProperty("longitude", adherent.getLongitude());
             jsonListe.add(jsonAdh);
         }
-
+        JsonArray jsonListe2 = new JsonArray();
+        for (Lieu lieu : lieux) {
+            JsonObject jsonLieu = new JsonObject();
+            jsonLieu.addProperty("id", lieu.getId());
+            jsonLieu.addProperty("lieu", lieu.getDenomination());
+            jsonLieu.addProperty("longitude", lieu.getLongitude());
+            jsonLieu.addProperty("latitude", lieu.getLatitude());
+            jsonListe2.add(jsonLieu);
+        }
         JsonObject container = new JsonObject();
-
+        container.add("lieu", jsonListe2);
         container.add("adherent", jsonListe);
         out.println(gson.toJson(container));
     }
