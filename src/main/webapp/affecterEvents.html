@@ -223,7 +223,7 @@
                     var html = "";
                     var i;
                     for (i = 0; i < lieu.length; i++) {
-                        html += "<option value=" + lieu[i].id + ">" + lieu[i].denomination + '</option>';
+                        html += "<option value=" + lieu[i].id + ">" + lieu[i].lieu + '</option>';
                     }
                     html += '';
                     document.getElementById('lieu').innerHTML = html;
@@ -234,7 +234,7 @@
                     document.getElementById('lieu').innerHTML = "Error loading data (" + status + ")";
                 }
             }
-
+            var tabMarkers=[];    
             //TODO : fonction pour affecter un lieu a un evenement, pas fini encore
             function affecterLieu() {
                 var xmlhttp = new XMLHttpRequest();
@@ -251,22 +251,31 @@
                 };
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
+                
+                function clearMarkers(){
+                    var i, nb = tabMarkers.length;
+                    for( i=0; i < nb; i++){
+                        tabMarkers[i].setMap(null); //désactive l'affichage des données du tableau sur la carte
+                    }
+                    tabMarkers = []; //remise à zero du tableau de marqueurs
+                }
 
                 function onRequestResult(data) {
+                    clearMarkers();
                     var coord = data.adherent;
-//                    clearMarkers();
                     for (i = 0; i < coord.length; i++) {
                         var long = coord[i].longitude;
                         var lat = coord[i].latitude;
                         var myLatlng = new google.maps.LatLng(lat, long);
                         var idAd = coord[i].id;
                         marker = new google.maps.Marker({position: myLatlng, title: idAd});
-                        marker.setMap(map);
-                    }
+                        tabMarkers.push( marker);
+                        tabMarkers[i].setMap(map);
+                    }    
                     //TODO : PAF défini dans la base de donnes ou a l'admin de le definir ?
 //                    if(coord[1]!== null){
 //                        document.getElementById('paf').value = coord[1].paf;
-//                    }
+//                  }
                 }
 
                 function onRequestError(status, text) {
