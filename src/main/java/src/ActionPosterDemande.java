@@ -8,6 +8,7 @@ package src;
 import dao.JpaUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -25,7 +26,7 @@ import metier.service.ServiceMetier;
  */
 class ActionPosterDemande {
 
-    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JpaUtil.init();
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
@@ -64,8 +65,11 @@ class ActionPosterDemande {
                 String annee = request.getParameter("annee");
                 int anneeInt = Integer.parseInt(annee);
                 System.out.println(anneeInt);
-                anneeInt = anneeInt - 1900;
-                Date date = new Date(anneeInt, moisInt, jourInt);
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.YEAR, anneeInt);
+                cal.set(Calendar.MONTH, moisInt);
+                cal.set(Calendar.DAY_OF_MONTH, jourInt);
+                Date date = cal.getTime();
                 Date today = new Date();
                 System.out.println(date);
                 System.out.println(today);
@@ -74,7 +78,7 @@ class ActionPosterDemande {
                     return;
                 }
                 Demande demande = new Demande(date, moment);
-                boolean confirme=false;
+                boolean confirme = false;
                 try {
                     confirme = ServiceMetier.saveDemande(adherent, demande, idActivite);
                 } catch (Exception ex) {

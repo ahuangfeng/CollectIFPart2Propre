@@ -12,6 +12,8 @@ import com.google.gson.JsonObject;
 import dao.JpaUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,13 +65,15 @@ class ActionMyDemands {
         int jourInt = 0;
         String day ="";
         String moisString = "";
+        Calendar calendar = new GregorianCalendar();
         for (Demande demande : demandes) {
             JsonObject jsonDemande = new JsonObject();
             jsonDemande.addProperty("id", demande.getId());
             jsonDemande.addProperty("name", demande.getMonActMTO().getDenomination());
-            year = 1900 + demande.getDate().getYear();
-            month = demande.getDate().getMonth()+1;
-            jourInt = demande.getDate().getDate();
+            calendar.setTime(demande.getDate());
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH) + 1;
+            jourInt = calendar.get(Calendar.DAY_OF_MONTH);
             if(jourInt<10){
                 day="0"+jourInt;
             }else{
