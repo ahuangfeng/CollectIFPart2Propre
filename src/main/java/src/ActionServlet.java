@@ -35,13 +35,6 @@ public class ActionServlet extends HttpServlet {
         System.out.println("inscription".equals(todo));
         if ("login".equals(todo)) {
             ActionLogin.run(request, response);
-        } else if ("logged".equals(todo)) {
-            //Effacer
-            String sessionUser = (String) session.getAttribute("user");
-            response.setContentType("application/json");
-            printUser(out, sessionUser);
-            //TODO :si no logged il doit envoyer vers accueil.html
-//                response.sendRedirect("./accueil.html");
         } else if ("inscription".equals(todo)) {
             ActionInscription.run(request, response);
         } else if ("listeActivites".equals(todo)) {
@@ -49,51 +42,23 @@ public class ActionServlet extends HttpServlet {
         } else if ("detailActivite".equals(todo)) {
             ActionDetailActivite.run(request, response);
         } else if ("posterDemande".equals(todo)) {
-                ActionPosterDemande.run(request, response);
+            ActionPosterDemande.run(request, response);
         } else if ("myDemands".equals(todo)) {
             ActionMyDemands.run(request, response);
         } else if ("listeAdherents".equals(todo)) {
             ActionGetAdherents.run(request, response);
         } else if ("admin".equals(todo)) {
             ActionAdminMain.run(request, response);
-        } else if("demandsAffecter".equals(todo)){
-            ActionGetDemandsAffecter.run(request,response);
-        } else if("getLieu".equals(todo)){
-            ActionGetLieu.run(request,response);
-        } else if("afectation".equals(todo)){
-            ActionGetCoordonnes.run(request,response);
+        } else if ("demandsAffecter".equals(todo)) {
+            ActionGetDemandsAffecter.run(request, response);
+        } else if ("getLieu".equals(todo)) {
+            ActionGetLieu.run(request, response);
+        } else if ("afectation".equals(todo)) {
+            ActionGetCoordonnes.run(request, response);
+        } else if ("validationEvent".equals(todo)) {
+            ActionValiderEvnmtLieu.run(request, response);
         }
         out.close();
-    }
-
-    /**
-     * Envoi JSON de l'Adherent
-     *
-     * @param out
-     * @param sessionUser
-     */
-    private void printUser(PrintWriter out, String sessionUser) {
-        try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            Long idAdh = Long.valueOf(sessionUser);
-            Adherent adhSession = null;
-            JpaUtil.init();
-            List<Adherent> adherents = ServiceMetier.consulterListeAdherent();
-            for (Adherent adherent : adherents) {
-                if (adherent.getId().equals(idAdh)) {
-                    adhSession = adherent;
-                }
-            }
-            JpaUtil.destroy();
-            JsonObject jsonAdherent = new JsonObject();
-            if (adhSession != null) {
-                jsonAdherent.addProperty("id", adhSession.getId());
-                jsonAdherent.addProperty("email", adhSession.getMail());
-            }
-            out.println(gson.toJson(jsonAdherent));
-        } catch (Exception ex) {
-            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @Override

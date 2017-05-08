@@ -22,6 +22,7 @@ public class ActionInscription {
 
     static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JpaUtil.init();
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
@@ -31,15 +32,9 @@ public class ActionInscription {
         boolean confirmation = false;
         try {
             confirmation = ServiceMetier.saveAdherent(adherent);
+            out.print(confirmation);
         } catch (Exception ex) {
             Logger.getLogger(ActionInscription.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        response.setCharacterEncoding("UTF-8");
-        if (confirmation) {
-            response.sendRedirect("./confirmation.html");
-        } else {
-            response.sendRedirect("./error.html");
         }
         JpaUtil.destroy();
     }

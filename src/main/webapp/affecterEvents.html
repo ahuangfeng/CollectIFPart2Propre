@@ -17,14 +17,14 @@
                 font-size: 65px;
                 text-align: left;
             }
-            .title {
-                position: absolute;
-                top: 200px;
-                left: 400px;
-                margin: auto;
-                width: 60%;
-                padding: 10px;
-            }
+            /*            .title {
+                            position: absolute;
+                            top: 200px;
+                            left: 400px;
+                            margin: auto;
+                            width: 60%;
+                            padding: 10px;
+                        }*/
             .petit{
                 height: 40px;
                 width: 200px;
@@ -186,6 +186,9 @@
                         var evn = data.Evenement;
                         var html = "";
                         var i;
+                        if (evn.length === 0) {
+                            html += "<option disabled selected value> Aucun evenement à valider </option>"
+                        }
                         for (i = 0; i < evn.length; i++) {
                             html += "<option value=" + evn[i].id + ">" + evn[i].denomination + ' le ' + evn[i].date + ' ' + evn[i].moment + '</option>';
                         }
@@ -282,10 +285,6 @@
                         tabMarkers.push(marker);
                         tabMarkers[i].setMap(map);
                     }
-                    //TODO : PAF défini dans la base de donnes ou a l'admin de le definir ?
-//                    if(coord[1]!== null){
-//                        document.getElementById('paf').value = coord[1].paf;
-//                  }
                 }
 
                 function onRequestError(status, text) {
@@ -295,7 +294,34 @@
             }
 
             function valider() {
-                //TODO
+                var argent = document.getElementById("paf").value;
+                var endroit = document.getElementById("lieu").value;
+                var idEvnmt = document.getElementById("evennementAaffecter").value;
+                if (argent === null) {
+                    argent = 0;
+                }
+                $.ajax({
+                    url: './ActionServlet',
+                    type: 'GET',
+                    data: {
+                        action: 'validationEvent',
+                        paf: argent,
+                        lieu: endroit,
+                        evnmt: idEvnmt
+                    },
+                    dataType: 'text'
+                })
+                        .done(function (data) {
+                            alert(data);
+                            location.reload();
+                        })
+                        .fail(function () {
+                            alert("Erreur de validation!");
+//                            $('#Events').html('ERREUR de chargement');
+                        })
+                        .always(function () {
+                            //
+                        });
             }
         </script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBd82M8EDJ3WNL3clk0Vvib4EozpbRoG8&callback=myMap" async defer></script>

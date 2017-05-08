@@ -140,7 +140,24 @@
                         xmlhttp.open("GET", url, true);
                         xmlhttp.send();
                         xmlhttp.onreadystatechange = function () {
-                            window.location.replace('accueil.html');
+                            if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                                var data2 = xmlhttp.responseText;
+                                onRequestResult2(data2);
+                            } else if (xmlhttp.readyState === 4) {
+                                onRequestError(xmlhttp.status, xmlhttp.responseText);
+                            }
+                            function onRequestResult2(data) {
+                                if(data){
+                                    alert("Inscription effectué ! ");
+                                    window.location.replace("./accueil.html");
+                                }else{
+                                    alert("Inscription échoué ! ");
+                                }
+                            }
+                            function onRequestError(status, text) {
+                                console.log('HTTP Error' + status + '--' + text);
+                                alert("Erreur -- " + text);
+                            }
                         };
                     } else {
                         alert("Email saisie pas valide !");

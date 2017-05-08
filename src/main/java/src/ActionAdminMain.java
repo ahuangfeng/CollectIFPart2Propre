@@ -64,7 +64,7 @@ class ActionAdminMain {
         int year = 0;
         int month = 0;
         int jourInt = 0;
-        String day ="";
+        String day = "";
         String moisString = "";
         Calendar calendar = new GregorianCalendar();
         for (Evnmt evenement : evenements) {
@@ -78,17 +78,17 @@ class ActionAdminMain {
             year = calendar.get(Calendar.YEAR);
             month = calendar.get(Calendar.MONTH) + 1;
             jourInt = calendar.get(Calendar.DAY_OF_MONTH);
-            if(jourInt<10){
-                day="0"+jourInt;
-            }else{
+            if (jourInt < 10) {
+                day = "0" + jourInt;
+            } else {
                 day = String.valueOf(jourInt);
             }
-            if(month<10){
-                moisString="0"+month;
-            }else{
+            if (month < 10) {
+                moisString = "0" + month;
+            } else {
                 moisString = String.valueOf(month);
             }
-            date = day+"/"+moisString+'/'+year;
+            date = day + "/" + moisString + '/' + year;
             jsonEvn.addProperty("date", date);
             jsonEvn.addProperty("moment", evenement.getMoment());
             jsonEvn.addProperty("payant", d.getMonActMTO().getPayant());
@@ -99,5 +99,5 @@ class ActionAdminMain {
         container.add("evenements", jsonListe);
         out.println(gson.toJson(container));
     }
-    
+
 }

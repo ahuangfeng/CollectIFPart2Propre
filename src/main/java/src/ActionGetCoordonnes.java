@@ -53,7 +53,7 @@ class ActionGetCoordonnes {
                 }
                 adherents = ServiceMetier.consulterListeParticipant(evenAValider);
                 lieux = ServiceMetier.consulterListeLieu();
-                printEvent(out, adherents,lieux, evenAValider);
+                printEvent(out, adherents, lieux, evenAValider);
             } catch (Exception ex) {
                 Logger.getLogger(ActionGetCoordonnes.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -61,7 +61,7 @@ class ActionGetCoordonnes {
         JpaUtil.destroy();
     }
 
-    private static void printEvent(PrintWriter out, List<Adherent> adherents,List<Lieu> lieux, Evnmt evnmt) {
+    private static void printEvent(PrintWriter out, List<Adherent> adherents, List<Lieu> lieux, Evnmt evnmt) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         JsonArray jsonListe = new JsonArray();
