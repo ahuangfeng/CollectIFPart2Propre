@@ -26,7 +26,7 @@ import metier.service.ServiceMetier;
  */
 public class ActionListeActivites {
 
-    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    static List<Activite> run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JpaUtil.init();
         PrintWriter out = response.getWriter();
         List<Activite> activite = null;
@@ -38,24 +38,8 @@ public class ActionListeActivites {
         
         response.setContentType("application/json");
         //Appel methode pour printer les activites
-        printListeActivite(out, activite);
         JpaUtil.destroy();
-    }
-    
-    public static void printListeActivite(PrintWriter out, List<Activite> Activite) {
-        //TODO remetre la conversion à JSON dans ActionServlet
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        JsonArray jsonListe = new JsonArray();
-        for (Activite a : Activite) {
-            JsonObject jsonActivite = new JsonObject();
-            jsonActivite.addProperty("id", a.getId());
-            jsonActivite.addProperty("denomination", a.getDenomination());
-            jsonListe.add(jsonActivite);
-        }
-        JsonObject container = new JsonObject();
-        container.add("activites", jsonListe);
-        out.println(gson.toJson(container));
+        return activite;
     }
 
 }

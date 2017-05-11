@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import metier.modele.Adherent;
 import metier.modele.Demande;
 import metier.service.ServiceMetier;
+import vueJson.PrintConfirmation;
 
 /**
  *
@@ -26,8 +27,9 @@ import metier.service.ServiceMetier;
  */
 class ActionPosterDemande {
 
-    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    static String run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JpaUtil.init();
+        String res ="";
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         if (session.isNew()) {
@@ -74,8 +76,9 @@ class ActionPosterDemande {
                 System.out.println("Date demande : " + date);
                 System.out.println("Date today" + today);
                 if (date.before(today)) {
-                    out.print("Date invalide");
-                    return;
+//                    PrintConfirmation.print("Date invalide",response);
+//                    out.print("Date invalide");
+                    return "Date invalide";
                 }
                 Demande demande = new Demande(date, moment);
                 boolean confirme = false;
@@ -85,16 +88,23 @@ class ActionPosterDemande {
                     Logger.getLogger(ActionPosterDemande.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if (confirme) {
-                    out.println("Demande crée, en attente d'être traiter par l'administrateur");
+//                    PrintConfirmation.print("Demande crée, en attente d'être traiter par l'administrateur",response);
+                    res =  "Demande crée, en attente d'être traiter par l'administrateur";
+//                    out.println("Demande crée, en attente d'être traiter par l'administrateur");
 //                    out.println("ID : ["+demande.getId()+ "]");
                 } else {
-                    out.print("Demande échoué");
+//                    PrintConfirmation.print("Demande échoué",response);
+                    res = "Demande échoué";
+//                    out.print("Demande échoué");
                 }
             } else {
-                out.print("Pas de session active");
+                PrintConfirmation.print("Pas de session active",response);
+                res = "Pas de session active";
+//                out.print("Pas de session active");
             }
         }
         JpaUtil.destroy();
+        return res;
     }
 
 }

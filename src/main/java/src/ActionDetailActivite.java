@@ -26,39 +26,40 @@ import metier.service.ServiceMetier;
  */
 public class ActionDetailActivite {
 
-    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    static List<Activite> run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JpaUtil.init();
         PrintWriter out = response.getWriter();
-        String actID = request.getParameter("id");
-        Long id = Long.parseLong(actID);
-        List<Activite> Activite = null;
+        List<Activite> activite = null;
         try {
-            Activite = ServiceMetier.consulterListeActivite();
+            activite = ServiceMetier.consulterListeActivite();
         } catch (Exception ex) {
             Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         //Appel methode pour printer les activites
-        printDetailActivite(out, Activite, id);
+//        printDetailActivite(out, activite);
         JpaUtil.destroy();
+        return activite;
     }
-
-    public static void printDetailActivite(PrintWriter out, List<Activite> activites, Long id) {
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        JsonObject jsonActivite = new JsonObject();
-        for (Activite activite : activites) {
-            if (activite.getId().equals(id)) {
-                jsonActivite.addProperty("id", activite.getId());
-                jsonActivite.addProperty("denomination", activite.getDenomination());
-                jsonActivite.addProperty("payant", activite.getPayant());
-                jsonActivite.addProperty("nbparticipant", activite.getNbParticipants());
-            }
-        }
-        out.println(gson.toJson(jsonActivite));
-
-    }
+//
+//    public static void printDetailActivite(PrintWriter out, List<Activite> activites) {
+//        
+//        String actID = request.getParameter("id");
+//        Long id = Long.parseLong(actID);
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//
+//        JsonObject jsonActivite = new JsonObject();
+//        for (Activite activite : activites) {
+//            if (activite.getId().equals(id)) {
+//                jsonActivite.addProperty("id", activite.getId());
+//                jsonActivite.addProperty("denomination", activite.getDenomination());
+//                jsonActivite.addProperty("payant", activite.getPayant());
+//                jsonActivite.addProperty("nbparticipant", activite.getNbParticipants());
+//            }
+//        }
+//        out.println(gson.toJson(jsonActivite));
+//
+//    }
 
 }

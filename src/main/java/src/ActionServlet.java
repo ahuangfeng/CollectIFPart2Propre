@@ -1,21 +1,23 @@
 package src;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import dao.JpaUtil;
+import vueJson.JsonAdherents;
+import vueJson.JsonMyDemands;
+import vueJson.JsonListeActivite;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import metier.modele.Activite;
 import metier.modele.Adherent;
-import metier.service.ServiceMetier;
+import metier.modele.Demande;
+import metier.modele.Evnmt;
+import vueJson.JsonDemandesAdmin;
+import vueJson.JsonDetailActivite;
+import vueJson.PrintConfirmation;
 
 /**
  *
@@ -25,30 +27,36 @@ public class ActionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //Session
+        PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         String todo = request.getParameter("action");
-        //TODO printeWriter dans chaque classe
-        PrintWriter out = response.getWriter();
-//        System.out.println(todo);
-//        System.out.println("inscription".equals(todo));
         if ("login".equals(todo)) {
             ActionLogin.run(request, response);
         } else if ("inscription".equals(todo)) {
-            ActionInscription.run(request, response);
+            boolean b = ActionInscription.run(request, response);
+            out.println(b);
         } else if ("listeActivites".equals(todo)) {
-            ActionListeActivites.run(request, response);
+            List<Activite> liste = ActionListeActivites.run(request, response);
+            JsonListeActivite.print(liste, response);
         } else if ("detailActivite".equals(todo)) {
-            ActionDetailActivite.run(request, response);
+            List<Activite> liste = ActionDetailActivite.run(request, response);
+            JsonDetailActivite.print(liste, request, response);
         } else if ("posterDemande".equals(todo)) {
-            ActionPosterDemande.run(request, response);
+            String resp = ActionPosterDemande.run(request, response);
+            PrintConfirmation.print(resp, response);
         } else if ("myDemands".equals(todo)) {
-            ActionMyDemands.run(request, response);
+            List<Demande> dem = ActionMyDemands.run(request, response);
+            if (dem != null) {
+                JsonMyDemands.print(dem, response);
+            }
         } else if ("listeAdherents".equals(todo)) {
-            ActionGetAdherents.run(request, response);
+            List<Adherent> adherents = ActionGetAdherents.run(request, response);
+            JsonAdherents.print(adherents,response);
         } else if ("admin".equals(todo)) {
-            ActionAdminMain.run(request, response);
+            List<Evnmt> evnmts = ActionAdminMain.run(request, response);
+            JsonDemandesAdmin.print(evnmts, response);
         } else if ("demandsAffecter".equals(todo)) {
             ActionGetDemandsAffecter.run(request, response);
         } else if ("getLieu".equals(todo)) {
@@ -58,7 +66,6 @@ public class ActionServlet extends HttpServlet {
         } else if ("validationEvent".equals(todo)) {
             ActionValiderEvnmtLieu.run(request, response);
         }
-        out.close();
     }
 
     @Override

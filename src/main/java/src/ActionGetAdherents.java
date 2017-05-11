@@ -5,13 +5,7 @@
  */
 package src;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import dao.JpaUtil;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,9 +20,8 @@ import metier.service.ServiceMetier;
  */
 class ActionGetAdherents {
 
-    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    static List<Adherent> run(HttpServletRequest request, HttpServletResponse response) {
         JpaUtil.init();
-        PrintWriter out = response.getWriter();
         List<Adherent> adherents = null;
         try {
             adherents = ServiceMetier.consulterListeAdherent();
@@ -38,24 +31,26 @@ class ActionGetAdherents {
         
         response.setContentType("application/json");
         //Appel methode pour printer les activites
-        printListeAdherents(out, adherents);
+//        printListeAdherents(response, adherents);
         JpaUtil.destroy();
+        return adherents;
     }
 
-    private static void printListeAdherents(PrintWriter out, List<Adherent> adherents) {
-        //TODO remetre la conversion à JSON dans ActionServlet
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        JsonArray jsonListe = new JsonArray();
-        for (Adherent adherent : adherents) {
-            JsonObject jsonAdherent = new JsonObject();
-            jsonAdherent.addProperty("id", adherent.getId());
-            jsonAdherent.addProperty("email",adherent.getMail());
-            jsonListe.add(jsonAdherent);
-        }
-        JsonObject container = new JsonObject();
-        container.add("adherent", jsonListe);
-        out.println(gson.toJson(container));
-    }
+//    private static void printListeAdherents(HttpServletResponse response, List<Adherent> adherents) throws IOException {
+//        //TODO remetre la conversion à JSON dans ActionServlet
+//        PrintWriter out = response.getWriter();
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//
+//        JsonArray jsonListe = new JsonArray();
+//        for (Adherent adherent : adherents) {
+//            JsonObject jsonAdherent = new JsonObject();
+//            jsonAdherent.addProperty("id", adherent.getId());
+//            jsonAdherent.addProperty("email",adherent.getMail());
+//            jsonListe.add(jsonAdherent);
+//        }
+//        JsonObject container = new JsonObject();
+//        container.add("adherent", jsonListe);
+//        out.println(gson.toJson(container));
+//    }
     
 }

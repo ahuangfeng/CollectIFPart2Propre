@@ -20,7 +20,7 @@ import metier.service.ServiceMetier;
  */
 public class ActionInscription {
 
-    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    static boolean run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JpaUtil.init();
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
@@ -32,10 +32,11 @@ public class ActionInscription {
         boolean confirmation = false;
         try {
             confirmation = ServiceMetier.saveAdherent(adherent);
-            out.print(confirmation);
+            return confirmation;
         } catch (Exception ex) {
             Logger.getLogger(ActionInscription.class.getName()).log(Level.SEVERE, null, ex);
         }
         JpaUtil.destroy();
+        return false;
     }
 }
