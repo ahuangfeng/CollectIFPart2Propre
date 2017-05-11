@@ -39,7 +39,7 @@ class ActionPosterDemande {
             }
         } else {
             //casting du session marche pas!
-            System.out.println(session.getAttribute("user"));
+            System.out.println("User : "+session.getAttribute("user"));
             Long sessionUser = (Long) session.getAttribute("user");
             Adherent adherent = null;
             List<Adherent> adherents = null;
@@ -64,15 +64,15 @@ class ActionPosterDemande {
                 int moisInt = Integer.parseInt(mois) - 1;
                 String annee = request.getParameter("annee");
                 int anneeInt = Integer.parseInt(annee);
-                System.out.println(anneeInt);
+                System.out.println("Annee : "+anneeInt);
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.YEAR, anneeInt);
                 cal.set(Calendar.MONTH, moisInt);
                 cal.set(Calendar.DAY_OF_MONTH, jourInt);
                 Date date = cal.getTime();
                 Date today = new Date();
-                System.out.println(date);
-                System.out.println(today);
+                System.out.println("Date demande : "+date);
+                System.out.println("Date today"+today);
                 if (date.before(today)) {
                     out.print("Date invalide");
                     return;
@@ -88,6 +88,7 @@ class ActionPosterDemande {
                     out.println("Demande cree : " + demande.toString());
                     out.println("Adherent : " + adherent.toString());
                     out.println("Id Activite : " + idActivite);
+                    //out.println(demande.getId());
                 } else {
                     out.print("Demande échoué");
                 }

@@ -27,7 +27,12 @@ class ActionValiderEvnmtLieu {
         String SLieu = request.getParameter("lieu");
         String SPaf = request.getParameter("paf");
         int idEvent = Integer.parseInt(SEvent);
-        int paf = Integer.parseInt(SPaf);
+        int paf;
+        if (SPaf.isEmpty()) {
+            paf = Integer.parseInt(SPaf);
+        } else {
+            paf = 0;
+        }
         int idLieu = Integer.parseInt(SLieu);
         try {
             ServiceMetier.affecterPaf(idEvent, paf);

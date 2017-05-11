@@ -31,8 +31,8 @@ public class ActionServlet extends HttpServlet {
         String todo = request.getParameter("action");
         //TODO printeWriter dans chaque classe
         PrintWriter out = response.getWriter();
-        System.out.println(todo);
-        System.out.println("inscription".equals(todo));
+//        System.out.println(todo);
+//        System.out.println("inscription".equals(todo));
         if ("login".equals(todo)) {
             ActionLogin.run(request, response);
         } else if ("inscription".equals(todo)) {
