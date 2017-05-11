@@ -35,44 +35,59 @@ public class ActionServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         String todo = request.getParameter("action");
-        if ("login".equals(todo)) {
-            ActionLogin.run(request, response);
-        } else if ("inscription".equals(todo)) {
-            boolean b = ActionInscription.run(request, response);
-            out.println(b);
-        } else if ("listeActivites".equals(todo)) {
-            List<Activite> liste = ActionListeActivites.run(request, response);
-            JsonListeActivite.print(liste, response);
-        } else if ("detailActivite".equals(todo)) {
-            List<Activite> liste = ActionDetailActivite.run(request, response);
-            JsonDetailActivite.print(liste, request, response);
-        } else if ("posterDemande".equals(todo)) {
-            String resp = ActionPosterDemande.run(request, response);
-            PrintConfirmation.print(resp, response);
-        } else if ("myDemands".equals(todo)) {
-            List<Demande> dem = ActionMyDemands.run(request, response);
-            if (dem != null) {
-                JsonMyDemands.print(dem, response);
-            }
-        } else if ("listeAdherents".equals(todo)) {
-            List<Adherent> adherents = ActionGetAdherents.run(request, response);
-            JsonAdherents.print(adherents,response);
-        } else if ("admin".equals(todo)) {
-            List<Evnmt> evnmts = ActionAdminMain.run(request, response);
-            JsonDemandesAdmin.print(evnmts, response);
-        } else if ("demandsAffecter".equals(todo)) {
-            List<Evnmt> events = ActionGetDemandsAffecter.run(request, response);
-            JsonEvents.print(events,response);
-        } else if ("getLieu".equals(todo)) {
-            List<Lieu> l = ActionGetLieu.run(request, response);
-            JsonLieu.print(l,response);
-        } else if ("afectation".equals(todo)) {
-            ActionGetCoordonnes.run(request, response);
-//            List<Lieu> lieus = ActionGetLieu.run(request, response);
-//            List<Adherent> adherents = ActionGetCoordonnes.run(request, response);
-        } else if ("validationEvent".equals(todo)) {
-            String res = ActionValiderEvnmtLieu.run(request, response);
-            PrintConfirmation.print(res,response);
+        if (null != todo) switch (todo) {
+            case "login":
+                ActionLogin.run(request, response);
+                break;
+            case "inscription":
+                boolean b = ActionInscription.run(request, response);
+                out.println(b);
+                break;
+            case "listeActivites":{
+                List<Activite> liste = ActionListeActivites.run(request, response);
+                JsonListeActivite.print(liste, response);
+                    break;
+                }
+            case "detailActivite":{
+                List<Activite> liste = ActionDetailActivite.run(request, response);
+                JsonDetailActivite.print(liste, request, response);
+                    break;
+                }
+            case "posterDemande":
+                String resp = ActionPosterDemande.run(request, response);
+                PrintConfirmation.print(resp, response);
+                break;
+            case "myDemands":
+                List<Demande> dem = ActionMyDemands.run(request, response);
+                if (dem != null) {
+                    JsonMyDemands.print(dem, response);
+                }   break;
+            case "listeAdherents":
+                List<Adherent> adherents = ActionGetAdherents.run(request, response);
+                JsonAdherents.print(adherents,response);
+                break;
+            case "admin":
+                List<Evnmt> evnmts = ActionAdminMain.run(request, response);
+                JsonDemandesAdmin.print(evnmts, response);
+                break;
+            case "demandsAffecter":
+                List<Evnmt> events = ActionGetDemandsAffecter.run(request, response);
+                JsonEvents.print(events,response);
+                break;
+            case "getLieu":
+                List<Lieu> l = ActionGetLieu.run(request, response);
+                JsonLieu.print(l,response);
+                break;
+            case "afectation":
+                List<Adherent> ad = ActionGetCoordonnes.run(request, response);
+                PrintConfirmation.print(ad,response);
+                break;
+            case "validationEvent":
+                String res = ActionValiderEvnmtLieu.run(request, response);
+                PrintConfirmation.print(res,response);
+                break;
+            default:
+                break;
         }
     }
 

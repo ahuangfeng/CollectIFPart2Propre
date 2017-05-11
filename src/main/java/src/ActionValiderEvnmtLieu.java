@@ -42,9 +42,6 @@ class ActionValiderEvnmtLieu {
         }
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        //Appel methode pour printer les activites
-//        out.println("Lieu et paf affecté : ");
-//        out.println("Event modifie : " + idEvent);
         JpaUtil.destroy();
         res+="Lieu et paf affecté \nEvent modifié : "+idEvent;
         return res;

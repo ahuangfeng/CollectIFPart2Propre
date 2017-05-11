@@ -23,7 +23,6 @@ public class ActionInscription {
     static boolean run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JpaUtil.init();
         response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String adresse = request.getParameter("adresse");
