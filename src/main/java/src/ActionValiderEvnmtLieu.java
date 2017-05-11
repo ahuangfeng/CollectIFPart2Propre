@@ -20,30 +20,15 @@ import metier.service.ServiceMetier;
 class ActionValiderEvnmtLieu {
 
     static String run(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        JpaUtil.init();
+        boolean conf = ActionAffecterPaf.run(request, response);
+        int conf2 = ActionAffecterLieu.run(request, response);
+        
         String res = "";
-//        PrintWriter out = response.getWriter();
-        String SEvent = request.getParameter("evnmt");
-        String SLieu = request.getParameter("lieu");
-        String SPaf = request.getParameter("paf");
-        int idEvent = Integer.parseInt(SEvent);
-        int paf;
-        if (SPaf.isEmpty()) {
-            paf = Integer.parseInt(SPaf);
-        } else {
-            paf = 0;
-        }
-        int idLieu = Integer.parseInt(SLieu);
-        try {
-            ServiceMetier.affecterPaf(idEvent, paf);
-            ServiceMetier.affecterLieu(idEvent, idLieu);
-        } catch (Exception ex) {
-            Logger.getLogger(ActionValiderEvnmtLieu.class.getName()).log(Level.SEVERE, null, ex);
+        if(conf){
+            res += "Lieu et paf affecté \nEvent modifié : "+conf2;
         }
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        JpaUtil.destroy();
-        res+="Lieu et paf affecté \nEvent modifié : "+idEvent;
         return res;
     }
 

@@ -1,5 +1,6 @@
 package src;
 
+import vueJson.JsonCoordonneesMap;
 import vueJson.JsonAdherents;
 import vueJson.JsonMyDemands;
 import vueJson.JsonListeActivite;
@@ -79,8 +80,10 @@ public class ActionServlet extends HttpServlet {
                 JsonLieu.print(l,response);
                 break;
             case "afectation":
-                List<Adherent> ad = ActionGetCoordonnes.run(request, response);
-                PrintConfirmation.print(ad,response);
+                Evnmt ev = ActionGetEventAValider.run(request,response);
+                List<Adherent> a = ActionParticipantByEvent.run(request,response,ev);
+                List<Lieu> llocs = ActionGetLieu.run(request, response);
+                JsonCoordonneesMap.print(a,llocs,ev,response);
                 break;
             case "validationEvent":
                 String res = ActionValiderEvnmtLieu.run(request, response);

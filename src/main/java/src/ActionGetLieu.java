@@ -24,7 +24,6 @@ class ActionGetLieu {
 
     static List<Lieu> run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JpaUtil.init();
-        PrintWriter out = response.getWriter();
         List<Lieu> lieus = null;
         try {
             lieus = ServiceMetier.consulterListeLieu();
