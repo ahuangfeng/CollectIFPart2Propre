@@ -30,7 +30,7 @@ import metier.service.ServiceMetier;
  */
 class ActionGetCoordonnes {
 
-    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    static List<Adherent> run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         JpaUtil.init();
@@ -53,15 +53,17 @@ class ActionGetCoordonnes {
                 }
                 adherents = ServiceMetier.consulterListeParticipant(evenAValider);
                 lieux = ServiceMetier.consulterListeLieu();
-                printEvent(out, adherents, lieux, evenAValider);
+                printEvent(response, adherents, lieux, evenAValider);
             } catch (Exception ex) {
                 Logger.getLogger(ActionGetCoordonnes.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         JpaUtil.destroy();
+        return adherents;
     }
 
-    private static void printEvent(PrintWriter out, List<Adherent> adherents, List<Lieu> lieux, Evnmt evnmt) {
+    private static void printEvent(HttpServletResponse response, List<Adherent> adherents, List<Lieu> lieux, Evnmt evnmt) throws IOException {
+        PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         JsonArray jsonListe = new JsonArray();

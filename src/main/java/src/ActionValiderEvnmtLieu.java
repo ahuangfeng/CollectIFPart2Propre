@@ -20,9 +20,10 @@ import metier.service.ServiceMetier;
  */
 class ActionValiderEvnmtLieu {
 
-    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    static String run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JpaUtil.init();
-        PrintWriter out = response.getWriter();
+        String res = "";
+//        PrintWriter out = response.getWriter();
         String SEvent = request.getParameter("evnmt");
         String SLieu = request.getParameter("lieu");
         String SPaf = request.getParameter("paf");
@@ -43,9 +44,11 @@ class ActionValiderEvnmtLieu {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         //Appel methode pour printer les activites
-        out.println("Lieu et paf affecté : ");
-        out.println("Event modifie : " + idEvent);
+//        out.println("Lieu et paf affecté : ");
+//        out.println("Event modifie : " + idEvent);
         JpaUtil.destroy();
+        res+="Lieu et paf affecté \nEvent modifié : "+idEvent;
+        return res;
     }
 
 }

@@ -5,10 +5,6 @@
  */
 package src;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import dao.JpaUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,7 +22,7 @@ import metier.service.ServiceMetier;
  */
 class ActionGetLieu {
 
-    static void run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    static List<Lieu> run(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JpaUtil.init();
         PrintWriter out = response.getWriter();
         List<Lieu> lieus = null;
@@ -37,44 +33,46 @@ class ActionGetLieu {
         }
 
         response.setContentType("application/json");
-        //Appel methode pour printer les activites
-        if (lieus != null) {
-            printLieus(out, lieus);
-        } else {
-            printError(out);
-        }
+//        if (lieus != null) {
+//            printLieus(out, lieus);
+//        } else {
+//            printError(out);
+//        }
         JpaUtil.destroy();
+        return lieus;
     }
-
-    private static void printLieus(PrintWriter out, List<Lieu> lieus) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        JsonArray jsonListe = new JsonArray();
-        for (Lieu lieu : lieus) {
-            JsonObject jsonLieu = new JsonObject();
-            jsonLieu.addProperty("id", lieu.getId());
-            jsonLieu.addProperty("lieu", lieu.getDenomination());
-            jsonLieu.addProperty("longitude", lieu.getLongitude());
-            jsonLieu.addProperty("latitude", lieu.getLatitude());
-            jsonListe.add(jsonLieu);
-        }
-        JsonObject container = new JsonObject();
-        container.add("lieu", jsonListe);
-        out.println(gson.toJson(container));
-    }
-
-    //revoir cette methode
-    private static void printError(PrintWriter out) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        JsonArray jsonListe = new JsonArray();
-        JsonObject jsonLieu = new JsonObject();
-        jsonLieu.addProperty("id", "Pas de lieux dispo");
-        jsonLieu.addProperty("lieu", "Pas de lieux dispo");
-        jsonListe.add(jsonLieu);
-        JsonObject container = new JsonObject();
-        container.add("lieu", jsonListe);
-        out.println(gson.toJson(container));
-    }
+//
+//    private static void printLieus(HttpServletResponse response, List<Lieu> lieus) throws IOException {
+//        PrintWriter out = response.getWriter();
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//
+//        JsonArray jsonListe = new JsonArray();
+//        for (Lieu lieu : lieus) {
+//            JsonObject jsonLieu = new JsonObject();
+//            jsonLieu.addProperty("id", lieu.getId());
+//            jsonLieu.addProperty("lieu", lieu.getDenomination());
+//            jsonLieu.addProperty("longitude", lieu.getLongitude());
+//            jsonLieu.addProperty("latitude", lieu.getLatitude());
+//            jsonListe.add(jsonLieu);
+//        }
+//        JsonObject container = new JsonObject();
+//        container.add("lieu", jsonListe);
+//        out.println(gson.toJson(container));
+//    }
+//
+//    //revoir cette methode
+//    private static void printError(HttpServletResponse response) throws IOException {
+//        PrintWriter out = response.getWriter();
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//
+//        JsonArray jsonListe = new JsonArray();
+//        JsonObject jsonLieu = new JsonObject();
+//        jsonLieu.addProperty("id", "Pas de lieux dispo");
+//        jsonLieu.addProperty("lieu", "Pas de lieux dispo");
+//        jsonListe.add(jsonLieu);
+//        JsonObject container = new JsonObject();
+//        container.add("lieu", jsonListe);
+//        out.println(gson.toJson(container));
+//    }
 
 }

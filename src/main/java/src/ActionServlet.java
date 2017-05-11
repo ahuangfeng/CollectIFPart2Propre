@@ -15,8 +15,11 @@ import metier.modele.Activite;
 import metier.modele.Adherent;
 import metier.modele.Demande;
 import metier.modele.Evnmt;
+import metier.modele.Lieu;
 import vueJson.JsonDemandesAdmin;
 import vueJson.JsonDetailActivite;
+import vueJson.JsonEvents;
+import vueJson.JsonLieu;
 import vueJson.PrintConfirmation;
 
 /**
@@ -58,13 +61,18 @@ public class ActionServlet extends HttpServlet {
             List<Evnmt> evnmts = ActionAdminMain.run(request, response);
             JsonDemandesAdmin.print(evnmts, response);
         } else if ("demandsAffecter".equals(todo)) {
-            ActionGetDemandsAffecter.run(request, response);
+            List<Evnmt> events = ActionGetDemandsAffecter.run(request, response);
+            JsonEvents.print(events,response);
         } else if ("getLieu".equals(todo)) {
-            ActionGetLieu.run(request, response);
+            List<Lieu> l = ActionGetLieu.run(request, response);
+            JsonLieu.print(l,response);
         } else if ("afectation".equals(todo)) {
             ActionGetCoordonnes.run(request, response);
+//            List<Lieu> lieus = ActionGetLieu.run(request, response);
+//            List<Adherent> adherents = ActionGetCoordonnes.run(request, response);
         } else if ("validationEvent".equals(todo)) {
-            ActionValiderEvnmtLieu.run(request, response);
+            String res = ActionValiderEvnmtLieu.run(request, response);
+            PrintConfirmation.print(res,response);
         }
     }
 
