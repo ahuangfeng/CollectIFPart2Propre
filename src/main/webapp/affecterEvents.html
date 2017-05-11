@@ -187,7 +187,7 @@
                         var html = "";
                         var i;
                         if (evn.length === 0) {
-                            html += "<option disabled selected value> Aucun evenement à valider </option>"
+                            html += "<option disabled selected value> Aucun evenement à valider </option>";
                         }
                         for (i = 0; i < evn.length; i++) {
                             html += "<option value=" + evn[i].id + ">" + evn[i].denomination + ' le ' + evn[i].date + ' ' + evn[i].moment + '</option>';
@@ -297,7 +297,7 @@
                 var argent = document.getElementById("paf").value;
                 var endroit = document.getElementById("lieu").value;
                 var idEvnmt = document.getElementById("evennementAaffecter").value;
-                if (argent === null) {
+                if (argent === '') {
                     argent = 0;
                 }
                 $.ajax({

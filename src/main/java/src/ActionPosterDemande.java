@@ -85,9 +85,8 @@ class ActionPosterDemande {
                     Logger.getLogger(ActionPosterDemande.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if (confirme) {
-                    out.println("Demande cree : " + demande.toString());
-                    out.println("Adherent : " + adherent.toString());
-                    out.println("Id Activite : " + idActivite);
+                    out.println("Demande crée, en attente d'être traiter par l'administrateur");
+                    out.println("ID : ["+demande.getId()+ "]");
                 } else {
                     out.print("Demande échoué");
                 }
