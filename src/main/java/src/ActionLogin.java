@@ -34,7 +34,7 @@ class ActionLogin {
         }
         PrintWriter out = response.getWriter();
         if (adherent != null && !("admin@admin.com".equals(adherent.getMail()))){
-            System.out.println(adherent.getId());
+//            System.out.println(adherent.getId());
             session.setAttribute("user", adherent.getId());
             out.print(adherent.getId());
 //            response.sendRedirect("./posterDemande.html");

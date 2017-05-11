@@ -39,10 +39,6 @@ class ActionMyDemands {
             try {
                 int sessionInt = (int) (long) sessionUser;
                 demandes = ServiceMetier.consulterListeDemandeById(sessionInt);
-//                if (demandes != null) {
-//                    printDemandesById(out, demandes);
-//                    
-//                }
             } catch (Exception ex) {
                 Logger.getLogger(ActionMyDemands.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -50,46 +46,5 @@ class ActionMyDemands {
         JpaUtil.destroy();
         return demandes;
     }
-
-//    private static void printDemandesById(PrintWriter out, List<Demande> demandes) {
-//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//
-//        JsonArray jsonListe = new JsonArray();
-//        String date = null;
-//        int year = 0;
-//        int month = 0;
-//        int jourInt = 0;
-//        String day = "";
-//        String moisString = "";
-//        Calendar calendar = new GregorianCalendar();
-//        for (Demande demande : demandes) {
-//            JsonObject jsonDemande = new JsonObject();
-//            jsonDemande.addProperty("id", demande.getId());
-//            jsonDemande.addProperty("name", demande.getMonActMTO().getDenomination());
-//            calendar.setTime(demande.getDate());
-//            year = calendar.get(Calendar.YEAR);
-//            month = calendar.get(Calendar.MONTH) + 1;
-//            jourInt = calendar.get(Calendar.DAY_OF_MONTH);
-//            if (jourInt < 10) {
-//                day = "0" + jourInt;
-//            } else {
-//                day = String.valueOf(jourInt);
-//            }
-//            if (month < 10) {
-//                moisString = "0" + month;
-//            } else {
-//                moisString = String.valueOf(month);
-//            }
-//            date = day + "/" + moisString + '/' + year;
-//            jsonDemande.addProperty("date", date);
-//            jsonDemande.addProperty("moment", demande.getMoment());
-//            jsonDemande.addProperty("payant", demande.getMonActMTO().getPayant());
-//            jsonDemande.addProperty("statut", demande.getTraiter());
-//            jsonListe.add(jsonDemande);
-//        }
-//        JsonObject container = new JsonObject();
-//        container.add("demandes", jsonListe);
-//        out.println(gson.toJson(container));
-//    }
 
 }

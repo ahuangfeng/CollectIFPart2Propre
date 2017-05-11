@@ -5,13 +5,9 @@
  */
 package src;
 
-import dao.JpaUtil;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import metier.service.ServiceMetier;
 
 /**
  *

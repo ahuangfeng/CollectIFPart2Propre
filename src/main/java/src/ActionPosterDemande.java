@@ -76,8 +76,6 @@ class ActionPosterDemande {
                 System.out.println("Date demande : " + date);
                 System.out.println("Date today" + today);
                 if (date.before(today)) {
-//                    PrintConfirmation.print("Date invalide",response);
-//                    out.print("Date invalide");
                     return "Date invalide";
                 }
                 Demande demande = new Demande(date, moment);
@@ -88,19 +86,13 @@ class ActionPosterDemande {
                     Logger.getLogger(ActionPosterDemande.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if (confirme) {
-//                    PrintConfirmation.print("Demande crée, en attente d'être traiter par l'administrateur",response);
                     res =  "Demande crée, en attente d'être traiter par l'administrateur";
-//                    out.println("Demande crée, en attente d'être traiter par l'administrateur");
-//                    out.println("ID : ["+demande.getId()+ "]");
                 } else {
-//                    PrintConfirmation.print("Demande échoué",response);
                     res = "Demande échoué";
-//                    out.print("Demande échoué");
                 }
             } else {
                 PrintConfirmation.print("Pas de session active",response);
                 res = "Pas de session active";
-//                out.print("Pas de session active");
             }
         }
         JpaUtil.destroy();
