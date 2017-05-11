@@ -22,6 +22,8 @@ import metier.modele.Activite;
 public class JsonDetailActivite {
 
     public static void print(List<Activite> liste, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         String actID = request.getParameter("id");
         Long id = Long.parseLong(actID);

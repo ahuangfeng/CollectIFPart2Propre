@@ -22,6 +22,8 @@ import metier.modele.Activite;
 public class JsonListeActivite {
 
     public static void print(List<Activite> liste, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 

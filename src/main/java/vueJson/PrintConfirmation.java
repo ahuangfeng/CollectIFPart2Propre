@@ -18,6 +18,7 @@ import metier.modele.Adherent;
 public class PrintConfirmation {
 
     public static void print(String message, HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         out.println(message);
     }

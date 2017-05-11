@@ -32,7 +32,7 @@ public class ActionServlet extends HttpServlet {
             throws ServletException, IOException {
         //Session
         PrintWriter out = response.getWriter();
-        HttpSession session = request.getSession();
+//        HttpSession session = request.getSession();
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         String todo = request.getParameter("action");

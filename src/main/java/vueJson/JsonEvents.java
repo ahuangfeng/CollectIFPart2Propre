@@ -26,18 +26,19 @@ public class JsonEvents {
 
     public static void print(List<Evnmt> events, HttpServletResponse response) throws IOException {
 //        HttpSession session = request.getSession();
-        if(events!=null){
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        if (events != null) {
             printEvenementsAffecter(response, events);
-        }else{
+        } else {
             printEventVide(response, events);
         }
     }
-    
+
 //    private static void print(String message, HttpServletResponse response) throws IOException{
 //        PrintWriter out = response.getWriter();
 //        out.println(message);
 //    }
-    
     private static void printEvenementsAffecter(HttpServletResponse response, List<Evnmt> evenements) throws IOException {
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -94,5 +95,5 @@ public class JsonEvents {
         container.add("Evenement", jsonListe);
         out.println(gson.toJson(container));
     }
-    
+
 }

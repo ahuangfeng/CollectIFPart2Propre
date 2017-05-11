@@ -24,6 +24,8 @@ import metier.modele.Lieu;
 public class JsonLieu {
 
     public static void print(List<Lieu> l, HttpServletResponse response) {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         try {
             if (l != null) {
                 printLieus(response, l);

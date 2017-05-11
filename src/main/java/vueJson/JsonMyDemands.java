@@ -24,6 +24,8 @@ import metier.modele.Demande;
 public class JsonMyDemands {
 
     public static void print(List<Demande> dem, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 

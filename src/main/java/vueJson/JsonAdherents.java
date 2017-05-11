@@ -22,6 +22,7 @@ import metier.modele.Adherent;
 public class JsonAdherents {
 
     public static void print(List<Adherent> adherents, HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 

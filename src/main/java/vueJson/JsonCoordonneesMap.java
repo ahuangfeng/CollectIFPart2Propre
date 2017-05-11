@@ -25,6 +25,7 @@ import metier.modele.Lieu;
 public class JsonCoordonneesMap {
 
     public static void print(List<Adherent> a, List<Lieu> llocs, Evnmt ev, HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
