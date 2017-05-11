@@ -17,14 +17,6 @@
                 font-size: 65px;
                 text-align: left;
             }
-            /*            .title {
-                            position: absolute;
-                            top: 200px;
-                            left: 400px;
-                            margin: auto;
-                            width: 60%;
-                            padding: 10px;
-                        }*/
             .petit{
                 height: 40px;
                 width: 200px;
@@ -187,7 +179,7 @@
                         var html = "";
                         var i;
                         if (evn.length === 0) {
-                            html += "<option disabled selected value> Aucun evenement à valider </option>"
+                            html += "<option disabled selected value> Aucun evenement à valider </option>";
                         }
                         for (i = 0; i < evn.length; i++) {
                             html += "<option value=" + evn[i].id + ">" + evn[i].denomination + ' le ' + evn[i].date + ' ' + evn[i].moment + '</option>';
@@ -297,7 +289,7 @@
                 var argent = document.getElementById("paf").value;
                 var endroit = document.getElementById("lieu").value;
                 var idEvnmt = document.getElementById("evennementAaffecter").value;
-                if (argent == null) {
+                if (argent === '') {
                     argent = 0;
                 }
                 $.ajax({
