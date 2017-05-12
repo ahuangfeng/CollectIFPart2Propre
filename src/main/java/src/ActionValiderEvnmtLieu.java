@@ -16,15 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 class ActionValiderEvnmtLieu {
 
     static String run(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        boolean conf = ActionAffecterPaf.run(request, response);
-        int conf2 = ActionAffecterLieu.run(request, response);
+        boolean conf = ActionAffecterPaf.run(request);
+        int conf2 = ActionAffecterLieu.run(request);
         
         String res = "";
         if(conf){
             res += "Lieu et paf affecté \nEvent modifié : "+conf2;
         }
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+        
         return res;
     }
 

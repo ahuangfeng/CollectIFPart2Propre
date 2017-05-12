@@ -9,7 +9,6 @@ import dao.JpaUtil;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import metier.service.ServiceMetier;
 
 /**
@@ -18,7 +17,7 @@ import metier.service.ServiceMetier;
  */
 public class ActionAffecterLieu {
 
-    static int run(HttpServletRequest request, HttpServletResponse response) {
+    static int run(HttpServletRequest request) {
         JpaUtil.init();
         String SEvent = request.getParameter("evnmt");
         String SLieu = request.getParameter("lieu");

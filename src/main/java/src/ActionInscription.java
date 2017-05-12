@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import metier.modele.Adherent;
 import metier.service.ServiceMetier;
 
@@ -19,9 +18,8 @@ import metier.service.ServiceMetier;
  */
 public class ActionInscription {
 
-    static boolean run(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    static boolean run(HttpServletRequest request) throws IOException {
         JpaUtil.init();
-        response.setCharacterEncoding("UTF-8");
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String adresse = request.getParameter("adresse");

@@ -35,10 +35,6 @@ public class JsonEvents {
         }
     }
 
-//    private static void print(String message, HttpServletResponse response) throws IOException{
-//        PrintWriter out = response.getWriter();
-//        out.println(message);
-//    }
     private static void printEvenementsAffecter(HttpServletResponse response, List<Evnmt> evenements) throws IOException {
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

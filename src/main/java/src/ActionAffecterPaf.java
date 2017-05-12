@@ -9,7 +9,6 @@ import dao.JpaUtil;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import metier.service.ServiceMetier;
 
 /**
@@ -18,7 +17,7 @@ import metier.service.ServiceMetier;
  */
 public class ActionAffecterPaf {
 
-    static boolean run(HttpServletRequest request, HttpServletResponse response) {
+    static boolean run(HttpServletRequest request) {
         JpaUtil.init();
         String SEvent = request.getParameter("evnmt");
         boolean res = false;

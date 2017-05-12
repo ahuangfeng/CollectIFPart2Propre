@@ -40,16 +40,16 @@ public class ActionServlet extends HttpServlet {
                 ActionLogin.run(request, response);
                 break;
             case "inscription":
-                boolean b = ActionInscription.run(request, response);
+                boolean b = ActionInscription.run(request);
                 out.println(b);
                 break;
             case "listeActivites":{
-                List<Activite> liste = ActionListeActivites.run(request, response);
+                List<Activite> liste = ActionListeActivites.run(request);
                 JsonListeActivite.print(liste, response);
                     break;
                 }
             case "detailActivite":{
-                List<Activite> liste = ActionDetailActivite.run(request, response);
+                List<Activite> liste = ActionDetailActivite.run(request);
                 JsonDetailActivite.print(liste, request, response);
                     break;
                 }
@@ -63,7 +63,7 @@ public class ActionServlet extends HttpServlet {
                     JsonMyDemands.print(dem, response);
                 }   break;
             case "listeAdherents":
-                List<Adherent> adherents = ActionGetAdherents.run(request, response);
+                List<Adherent> adherents = ActionGetAdherents.run(request);
                 JsonAdherents.print(adherents,response);
                 break;
             case "admin":
@@ -75,13 +75,13 @@ public class ActionServlet extends HttpServlet {
                 JsonEvents.print(events,response);
                 break;
             case "getLieu":
-                List<Lieu> l = ActionGetLieu.run(request, response);
+                List<Lieu> l = ActionGetLieu.run(request);
                 JsonLieu.print(l,response);
                 break;
             case "afectation":
                 Evnmt ev = ActionGetEventAValider.run(request,response);
                 List<Adherent> a = ActionParticipantByEvent.run(request,response,ev);
-                List<Lieu> llocs = ActionGetLieu.run(request, response);
+                List<Lieu> llocs = ActionGetLieu.run(request);
                 JsonCoordonneesMap.print(a,llocs,ev,response);
                 break;
             case "validationEvent":

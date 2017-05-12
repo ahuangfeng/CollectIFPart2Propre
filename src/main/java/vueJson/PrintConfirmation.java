@@ -19,6 +19,7 @@ public class PrintConfirmation {
 
     public static void print(String message, HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         out.println(message);
     }

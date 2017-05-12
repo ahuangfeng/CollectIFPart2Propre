@@ -33,7 +33,7 @@ class ActionAdminMain {
             response.sendRedirect("./error.html");
         } else {
             //casting du session marche pas!
-            System.out.println(session.getAttribute("user"));
+            //System.out.println(session.getAttribute("user"));
             List<Evnmt> evenements = null;
             try {
                 evenements = ServiceMetier.consulterListeEvt();

@@ -40,8 +40,7 @@ class ActionPosterDemande {
                 Logger.getLogger(ActionPosterDemande.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            //casting du session marche pas!
-            System.out.println("User : " + session.getAttribute("user"));
+            //System.out.println("User : " + session.getAttribute("user"));
             Long sessionUser = (Long) session.getAttribute("user");
             Adherent adherent = null;
             List<Adherent> adherents = null;
@@ -86,7 +85,7 @@ class ActionPosterDemande {
                     Logger.getLogger(ActionPosterDemande.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if (confirme) {
-                    res =  "Demande crée, en attente d'être traiter par l'administrateur";
+                    res =  "Demande crée, en attente d'être traité par l'administrateur";
                 } else {
                     res = "Demande échoué";
                 }
